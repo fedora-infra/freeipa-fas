@@ -1,0 +1,10 @@
+# Contributions to the freeipa-fas project
+
+## Creators & Maintainers
+
+* Christian Heimes <cheimes@redhat.com>
+
+## Contributors
+
+* Alexander Bokovoy <abokovoy@redhat.com>
+  * FreeIPA plugin template
