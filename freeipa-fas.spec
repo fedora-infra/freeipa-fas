@@ -14,8 +14,8 @@ Summary:        Fedora Account System extension for FreeIPA
 BuildArch:      noarch
 
 License:        GPL
-URL:            https://github.com/tiran/freeipa-fas
-Source0:        freeipa-fas-%{version}.tar.gz
+URL:            https://github.com/fedora-infra/freeipa-fas
+Source0:        https://github.com/fedora-infra/freeipa-%{plugin_name}/archive/%{version}.tar.gz
 
 BuildRequires: python3-devel
 BuildRequires: systemd
