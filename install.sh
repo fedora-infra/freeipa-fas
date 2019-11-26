@@ -14,7 +14,7 @@ cp schema.d/99-fasschema.ldif /usr/share/ipa/schema.d/
 cp updates/99-fas.update /usr/share/ipa/updates/
 
 mkdir -p -m 755 /usr/share/ipa/ui/js/plugins/userfas
-cp ui/userfas.js /usr/share/ipa/ui/js/plugins/userfas/
+cp ui/js/plugins/userfas/userfas.js /usr/share/ipa/ui/js/plugins/userfas/
 
 cp ipaserver/plugins/*.py ${SITE_PACKAGES}/ipaserver/plugins/
 python3 -m compileall ${SITE_PACKAGES}/ipaserver/plugins/
