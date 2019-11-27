@@ -29,6 +29,9 @@ User object is extended by the new *fasUser* object class.
 * *fasGPGKeyId*: multi-valued string, writable by self, indexec
 * *fasCreationTime*: timestamp, writable by admin
 * *fasStatusNote*: string, writable by admin
+* *fasRHBZEmail*: string, writable by self
+* *fasGitHubUsername*: string, writable by self
+* *fasGitLabUsername*: string, writable by self
 
 ### ACIs
 
