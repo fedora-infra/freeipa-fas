@@ -41,6 +41,15 @@ define([
                     name: 'fastimezone',
                     flags: ['w_if_no_aci']
                 }, {
+                    name: 'fasrhbzemail',
+                    flags: ['w_if_no_aci']
+                }, {
+                    name: 'fasgithubusername',
+                    flags: ['w_if_no_aci']
+                }, {
+                    name: 'fasgitlabusername',
+                    flags: ['w_if_no_aci']
+                }, {
                     $type: 'multivalued',
                     name: 'fasgpgkeyid',
                     flags: ['w_if_no_aci']
