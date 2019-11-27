@@ -16,4 +16,7 @@ attributeTypes: ( 1.3.6.1.4.1.30401.1.1.3 NAME 'fasIRCNick' EQUALITY caseIgnoreM
 attributeTypes: ( 1.3.6.1.4.1.30401.1.1.4 NAME 'fasGPGKeyId' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{16} X-ORIGIN 'Fedora Account System' )
 attributeTypes: ( 1.3.6.1.4.1.30401.1.1.5 NAME 'fasCreationTime' EQUALITY generalizedTimeMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.24 SINGLE-VALUE X-ORIGIN 'Fedora Account System' )
 attributeTypes: ( 1.3.6.1.4.1.30401.1.1.6 NAME 'fasStatusNote' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'Fedora Account System' )
-objectClasses: ( 1.3.6.1.4.1.30401.1.2.1 NAME 'fasUser' DESC 'FAS user objectclass' AUXILIARY MAY ( fasTimeZone $ fasLocale $ fasIRCNick $ fasGPGKeyId $ fasCreationTime $ fasStatusNote ) X-ORIGIN 'Fedora Account System' )
+attributeTypes: ( 1.3.6.1.4.1.30401.1.1.7 NAME 'fasRHBZEmail' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'Fedora Account System' )
+attributeTypes: ( 1.3.6.1.4.1.30401.1.1.8 NAME 'fasGitHubUsername' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'Fedora Account System' )
+attributeTypes: ( 1.3.6.1.4.1.30401.1.1.9 NAME 'fasGitLabUsername' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'Fedora Account System' )
+objectClasses: ( 1.3.6.1.4.1.30401.1.2.1 NAME 'fasUser' DESC 'FAS user objectclass' AUXILIARY MAY ( fasTimeZone $ fasLocale $ fasIRCNick $ fasGPGKeyId $ fasCreationTime $ fasStatusNote $ fasRHBZEmail $ fasGitHubUsername $ fasGitLibUsername ) X-ORIGIN 'Fedora Account System' )
