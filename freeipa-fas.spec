@@ -7,7 +7,7 @@ Name:           ipa-%{plugin_name}
 %else
 Name:           freeipa-%{plugin_name}
 %endif
-Version:        0.0.1
+Version:        0.0.2
 Release:        1%{?dist}
 Summary:        Fedora Account System extension for FreeIPA
 
@@ -91,5 +91,9 @@ fi
 %_datadir/ipa/ui/js/plugins/*
 
 %changelog
+* Wed Feb 12 2020 Christian Heimes <cheimes@redhat.com> - 0.0.2-1
+- Make new fields readable
+- Make mail attribute writeable
+
 * Tue Nov 19 2019 Christian Heimes <cheimes@redhat.com> - 0.0.1-1
 - Initial release
