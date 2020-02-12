@@ -16,6 +16,10 @@ add:aci: (targetattr = "nsAccountLock || fasTimezone || fasLocale || fasIRCNick 
 remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId")(version 3.0;acl "Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
 add:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername")(version 3.0;acl "Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
 
+# self-service permissions to allow users to modify their own mail address
+dn: $SUFFIX
+add:aci: (targetattr = "mail")(version 3.0;acl "selfservice:Users can manage their own email address";allow (write) userdn = "ldap:///self";)
+
 # Index for FAS user attributes attribute
 dn: cn=fasIRCNick,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
 default:cn: fasIRCNick
