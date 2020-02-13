@@ -37,6 +37,7 @@ User object is extended by the new *fasUser* object class.
 
 * ``Read FAS user attributes``
 * ``Users can modify their own FAS attributes``
+* ``Users can modify their own Email address``
 
 ## Indexes
 
