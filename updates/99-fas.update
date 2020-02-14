@@ -20,10 +20,10 @@ add:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId ||
 dn: $SUFFIX
 add:aci: (targetattr = "mail")(version 3.0;acl "selfservice:Users can manage their own email address";allow (write) userdn = "ldap:///self";)
 
-
-# allow members to remove themselves from a group
+# allow members and member managers to remove themselves from a group
 dn: cn=groups,cn=accounts,$SUFFIX
 add:aci: (targetattr = "member")(targetfilter = "(objectclass=ipaUserGroup)")(version 3.0; acl "Allow members to remove themselves"; allow (selfwrite) userattr = "member#USERDN";)
+add:aci: (targetattr = "memberManager")(targetfilter = "(objectclass=ipaUserGroup)")(version 3.0; acl "Allow member managers to remove themselves"; allow (selfwrite) userattr = "memberManager#USERDN";)
 
 # Index for FAS user attributes attribute
 dn: cn=fasIRCNick,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
