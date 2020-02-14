@@ -33,12 +33,17 @@ User object is extended by the new *fasUser* object class.
 * *fasGitHubUsername*: string, writable by self
 * *fasGitLabUsername*: string, writable by self
 
-### ACIs
+## Groups
+
+* ``group_remove_member`` also removes member managers
+
+## ACIs
 
 * ``Read FAS user attributes``
 * ``Users can modify their own FAS attributes``
 * ``Users can modify their own Email address``
 * ``Users can remove themselves as members of groups``
+* ``Member managers can remove themselves as member managers of groups``
 
 ## User settings
 

@@ -22,5 +22,8 @@ python3 -m compileall ${SITE_PACKAGES}/ipaserver/plugins/
 if [ $NEEDS_UPGRADE = 1 ]; then
     ipa-server-upgrade
 else
+    ipa-ldap-updater \
+        -S /usr/share/ipa/schema.d/99-fasschema.ldif \
+        /usr/share/ipa/updates/99-fas.update
     systemctl restart httpd.service
 fi
