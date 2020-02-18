@@ -25,7 +25,7 @@ User object is extended by the new *fasUser* object class.
 
 * *fasTimeZone*: string, writable by self
 * *fasLocale*: string, writable by self
-* *fasIRCNick*: string, writable by self, indexed
+* *fasIRCNick*: multi-valued string, writable by self, indexed
 * *fasGPGKeyId*: multi-valued string, writable by self, indexec
 * *fasCreationTime*: timestamp, writable by admin
 * *fasStatusNote*: string, writable by admin

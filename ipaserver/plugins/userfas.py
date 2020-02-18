@@ -44,7 +44,7 @@ user.takes_params += (
         maxlength=64,
     ),
     Str(
-        "fasircnick?",
+        "fasircnick*",
         cli_name="fasircnick",
         label=_("IRC nick name"),
         maxlength=64,
