@@ -40,6 +40,10 @@ User object is extended by the new *fasUser* object class.
 * ``Users can modify their own Email address``
 * ``Users can remove themselves as members of groups``
 
+## User settings
+
+* OTP set as default authentication method.
+
 ## Indexes
 
 * Index on ``fasIRCNick`` for presence and equality
