@@ -8,6 +8,10 @@
 # dn: cn=ipaConfig,cn=etc,$SUFFIX
 # add:ipaUserObjectClasses: fasuser
 
+# Add otp as the default auth mechanism
+dn: cn=ipaConfig,cn=etc,$SUFFIX
+only:ipaUserAuthType: otp
+
 # ACI to expose FAS user attributes
 dn: cn=users,cn=accounts,$SUFFIX
 remove:aci: (targetattr = "nsAccountLock || fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasCreationTime || fasStatusNote")(targetfilter = "(objectclass=fasuser)")(version 3.0;acl "Read FAS user attributes";allow (compare,read,search) userdn = "ldap:///all";)
