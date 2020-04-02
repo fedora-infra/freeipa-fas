@@ -48,6 +48,7 @@ User object is extended by the new *fasUser* object class.
 
 * Index on ``fasIRCNick`` for presence and equality
 * Index on ``fasGPGKeyId`` for presence and equality
+* Uniqueness of ``mail`` attributes
 
 ## Command line extension
 
