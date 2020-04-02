@@ -46,3 +46,22 @@ default:nsSystemIndex: false
 default:nsIndexType: eq
 default:nsIndexType: pres
 
+# ensure that email addresses are unique
+dn: cn=mail uniqueness,cn=plugins,cn=config
+default:objectClass: top
+default:objectClass: nsSlapdPlugin
+default:objectClass: extensibleObject
+default:cn: mail uniqueness
+default:nsslapd-pluginDescription: Enforce unique attribute values
+default:nsslapd-pluginPath: libattr-unique-plugin
+default:nsslapd-pluginInitfunc: NSUniqueAttr_Init
+default:nsslapd-pluginType: preoperation
+default:nsslapd-pluginEnabled: on
+default:uniqueness-attribute-name: mail
+default:uniqueness-subtrees: $SUFFIX
+default:uniqueness-exclude-subtrees: cn=compat,$SUFFIX
+default:uniqueness-exclude-subtrees: cn=staged users,cn=accounts,cn=provisioning,$SUFFIX
+default:nsslapd-plugin-depends-on-type: database
+default:nsslapd-pluginId: NSUniqueAttr
+default:nsslapd-pluginVersion: 1.1.0
+default:nsslapd-pluginVendor: Fedora Project
