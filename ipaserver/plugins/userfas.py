@@ -12,25 +12,29 @@ from ipalib.parameters import DateTime, Str
 from ipaserver.plugins.user import user
 from ipaserver.plugins.user import user_add
 from ipaserver.plugins.user import user_mod
+from ipaserver.plugins.stageuser import stageuser
+from ipaserver.plugins.stageuser import stageuser_add
+from ipaserver.plugins.stageuser import stageuser_mod
 from ipaserver.plugins.internal import i18n_messages
 
 user.possible_objectclasses.append("fasuser")
+stageuser.possible_objectclasses.append("fasuser")
 
-user.default_attributes.extend(
-    [
-        "fastimezone",
-        "faslocale",
-        "fasircnick",
-        "fasgpgkeyid",
-        "fasstatusnote",
-        "fascreationtime",
-        "fasrhbzemail",
-        "fasgithubusername",
-        "fasgitlabusername",
-    ]
-)
+default_attributes = [
+    "fastimezone",
+    "faslocale",
+    "fasircnick",
+    "fasgpgkeyid",
+    "fasstatusnote",
+    "fascreationtime",
+    "fasrhbzemail",
+    "fasgithubusername",
+    "fasgitlabusername",
+]
+user.default_attributes.extend(default_attributes)
+stageuser.default_attributes.extend(default_attributes)
 
-user.takes_params += (
+takes_params = (
     Str(
         "fastimezone?",
         cli_name="fastimezone",
@@ -87,6 +91,8 @@ user.takes_params += (
         normalizer=lambda value: value.strip(),
     ),
 )
+user.takes_params += takes_params
+stageuser.takes_params += takes_params
 
 i18n_messages.messages["userfas"] = {"name": _("Fedora Account System")}
 
@@ -113,6 +119,7 @@ def user_add_fas_precb(self, ldap, dn, entry, attrs_list, *keys, **options):
 
 
 user_add.register_pre_callback(user_add_fas_precb)
+stageuser_add.register_pre_callback(user_add_fas_precb)
 
 
 def user_mod_fas_precb(self, ldap, dn, entry, attrs_list, *keys, **options):
@@ -129,3 +136,4 @@ def user_mod_fas_precb(self, ldap, dn, entry, attrs_list, *keys, **options):
 
 
 user_mod.register_pre_callback(user_mod_fas_precb)
+stageuser_mod.register_pre_callback(user_mod_fas_precb)

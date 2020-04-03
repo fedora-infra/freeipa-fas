@@ -62,8 +62,10 @@ define([
                     flags: ['w_if_no_aci']
                 }]
             };
-            var facet = get_item(IPA.user.entity_spec.facets, '$type', 'details');
-            facet.sections.push(section);
+            [IPA.user.entity_spec, IPA.stageuser.stageuser_spec].forEach(function(spec) {
+              var facet = get_item(spec.facets, '$type', 'details');
+              facet.sections.push(section);
+            });
             return true;
         };
 
