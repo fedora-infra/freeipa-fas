@@ -33,6 +33,8 @@ User object is extended by the new *fasUser* object class.
 * *fasGitHubUsername*: string, writable by self
 * *fasGitLabUsername*: string, writable by self
 
+This also applies to stage users.
+
 ## Groups
 
 * ``group_remove_member`` also removes member managers
@@ -69,3 +71,5 @@ $ ipa user-mod --help
                         user creation time
   ...
 ```
+
+The `ipa stageuser-add` command is extended in the same way.
