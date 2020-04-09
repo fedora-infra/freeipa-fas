@@ -1,5 +1,5 @@
 #!/bin/sh
-set -ex
+set -e
 
 SITE_PACKAGES=$(python3 -c 'from sys import version_info as v; print(f"/usr/lib/python{v.major}.{v.minor}/site-packages")')
 
@@ -27,3 +27,6 @@ else
         /usr/share/ipa/updates/99-fas.update
     systemctl restart httpd.service
 fi
+
+echo "NOTE: $0 is a hack for internal development."
+echo "Some changes require a proper ipa-server-upgrade or ipactl restart."

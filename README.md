@@ -21,7 +21,7 @@ time.
 
 ## Additional user attributes
 
-User object is extended by the new *fasUser* object class.
+User object is extended by a new *fasUser* object class.
 
 * *fasTimeZone*: string, writable by self
 * *fasLocale*: string, writable by self
@@ -37,6 +37,14 @@ This also applies to stage users.
 
 ## Groups
 
+Group object is extended by a new, optional *fasGroup* object class.
+The object class also acts as a marker and filter to hide internal
+gorups.
+
+* ``group_add`` and ``group_mod`` have option ``fasgroup`` to add
+  *fasGroup* object class.
+* ``group_find`` has option ``fasgroup`` to filter out groups that
+  don't have the *fasGroup* object class.
 * ``group_remove_member`` also removes member managers
 
 ## ACIs
@@ -75,3 +83,40 @@ $ ipa user-mod --help
 ```
 
 The `ipa stageuser-add` command is extended in the same way.
+
+The group add, modification, and find commands have an additional
+option ``--fasgroup``.
+
+```
+$ ipa group-add --help
+...
+--fasgroup     create a FAS group
+...
+$ ipa group-find --help
+...
+--fasgroup     search for FAS groups
+...
+$ ipa group-mod --help
+...
+--fasgroup     change to a FAS group
+...
+```
+
+The group find and show commands also show FAS group membership.
+
+```
+$ ipa group-show somegroup
+  Group name: somegroup
+  GID: 54400007
+  FAS group: True
+$ ipa group-find somegroup
+---------------
+1 group matched
+---------------
+  Group name: somegroup
+  GID: 54400007
+  FAS group: True
+----------------------------
+Number of entries returned 1
+----------------------------
+```
