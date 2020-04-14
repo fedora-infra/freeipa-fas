@@ -64,8 +64,6 @@ gorups.
 * Index on ``fasIRCNick`` for presence and equality
 * Index on ``fasGPGKeyId`` for presence and equality
 * Uniqueness of ``mail`` attributes
-* Uniqueness of ``uid``, ``krbPrincipalName``, ``krbCanonicalName``,
-  and ``ipaUniqueID`` is also enforced for staged users.
 
 ## Command line extension
 
