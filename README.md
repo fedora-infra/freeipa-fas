@@ -39,7 +39,7 @@ This also applies to stage users.
 
 Group object is extended by a new, optional *fasGroup* object class.
 The object class also acts as a marker and filter to hide internal
-gorups.
+groups.
 
 * ``group_add`` and ``group_mod`` have option ``fasgroup`` to add
   *fasGroup* object class.
