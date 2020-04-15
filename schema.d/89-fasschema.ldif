@@ -20,7 +20,8 @@ attributeTypes: ( 1.3.6.1.4.1.30401.1.1.7 NAME 'fasRHBZEmail' EQUALITY caseIgnor
 attributeTypes: ( 1.3.6.1.4.1.30401.1.1.8 NAME 'fasGitHubUsername' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'Fedora Account System' )
 attributeTypes: ( 1.3.6.1.4.1.30401.1.1.9 NAME 'fasGitLabUsername' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'Fedora Account System' )
 attributeTypes: ( 1.3.6.1.4.1.30401.1.1.10 NAME 'fasWebsiteURL' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'Fedora Account System' )
-objectClasses: ( 1.3.6.1.4.1.30401.1.2.1 NAME 'fasUser' DESC 'FAS user objectclass' AUXILIARY MAY ( fasTimeZone $ fasLocale $ fasIRCNick $ fasGPGKeyId $ fasCreationTime $ fasStatusNote $ fasRHBZEmail $ fasGitHubUsername $ fasGitLabUsername $ fasWebsiteURL ) X-ORIGIN 'Fedora Account System' )
+attributeTypes: ( 1.3.6.1.4.1.30401.1.1.11 NAME 'fasPronoun' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'Fedora Account System' )
+objectClasses: ( 1.3.6.1.4.1.30401.1.2.1 NAME 'fasUser' DESC 'FAS user objectclass' AUXILIARY MAY ( fasTimeZone $ fasLocale $ fasIRCNick $ fasGPGKeyId $ fasCreationTime $ fasStatusNote $ fasRHBZEmail $ fasGitHubUsername $ fasGitLabUsername $ fasWebsiteURL $ fasPronoun ) X-ORIGIN 'Fedora Account System' )
 #
 # group extension
 attributeTypes: ( 1.3.6.1.4.1.30401.1.1.20 NAME 'fasURL' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'Fedora Account System' )

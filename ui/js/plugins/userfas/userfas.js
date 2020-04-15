@@ -6,9 +6,10 @@
 
 define([
         'freeipa/phases',
-        'freeipa/ipa'
+        'freeipa/ipa',
+        'freeipa/text'
     ],
-    function(phases, IPA) {
+    function(phases, IPA, text) {
 
         // helper function
         function get_item(array, attr, value) {
@@ -26,6 +27,19 @@ define([
                 name: 'userfas',
                 label: '@i18n:userfas.name',
                 fields: [{
+                    $type: 'combobox',
+                    name: 'faspronoun',
+                    editable: true,
+                    flags: ['w_if_no_aci'],
+                    default_value: '',
+                    options: [
+                        { label: text.get('@i18n:userfas.pronoun_na'), value: '' },
+                        { label: text.get('@i18n:userfas.pronoun_she_her'), value: 'she/her' },
+                        { label: text.get('@i18n:userfas.pronoun_he_him'), value: 'he/him' },
+                        { label: text.get('@i18n:userfas.pronoun_they_them'), value: 'they/them' },
+                        { label: text.get('@i18n:userfas.pronoun_ask_me'), value: 'ask me' }
+                    ]
+                }, {
                     name: 'fastimezone',
                     flags: ['w_if_no_aci']
                 }, {

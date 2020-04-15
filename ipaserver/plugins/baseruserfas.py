@@ -13,7 +13,38 @@ from ipalib.parameters import DateTime, Str
 from ipaserver.plugins.baseuser import baseuser
 from ipaserver.plugins.internal import i18n_messages
 
-from .fasutils import URL
+from .fasutils import FilteredStrEnum, URL
+
+# preferred pronouns
+PRONOUNS = {
+    "she/her": _("she/her"),
+    "he/him": _("he/him"),
+    "they/them": _("they/them"),
+    "ask me": _("ask me"),
+}
+
+# other pronouns that are not considered by user-find-pronoun-variations
+OTHER_PRONOUNS = {
+    # https://uwm.edu/lgbtrc/support/gender-pronouns/
+    "ae/aer": _("ae/aer"),
+    "fae/faer": _("fae/faer"),
+    "e/em": _("e/em"),
+    "ey/em": _("ey/em"),
+    "per/per": _("per/per"),
+    "ve/ver": _("ve/ver"),
+    "xe/xem": _("xe/xem"),
+    "ze/hir": _("ze/hir"),
+    "zie/hir": _("zie/hir"),
+}
+
+# lower-case, no white-space, just [a-z0-9_]
+BLOCKED_PRONOUNS = {
+    # transphobic meme "I sexually identify as an Attack Helicopter"
+    "helicopter",
+    # apache is a synonym for attack helicopter
+    "apache",
+}
+
 
 # possible object classes and default attributes are shared between all
 # users plugins.
@@ -31,12 +62,22 @@ fas_user_attributes = [
     "fasgithubusername",
     "fasgitlabusername",
     "faswebsiteurl",
+    "faspronoun",
 ]
 baseuser.default_attributes.extend(fas_user_attributes)
 
 baseuser.attribute_members["memberof"].append("fasagreement")
 
 takes_params = (
+    FilteredStrEnum(
+        "faspronoun?",
+        cli_name="faspronoun",
+        label=_("Pronoun"),
+        doc=_("Pronoun (free-form field with suggested values)"),
+        normalizer=lambda value: value.strip().lower(),
+        values=tuple(PRONOUNS),
+        blocked_values=frozenset(BLOCKED_PRONOUNS),
+    ),
     Str(
         "fastimezone?",
         cli_name="fastimezone",
@@ -101,4 +142,13 @@ takes_params = (
     ),
 )
 
-i18n_messages.messages["userfas"] = {"name": _("Fedora Account System")}
+i18n_messages.messages["userfas"] = {
+    "name": _("Fedora Account System"),
+    "pronoun_na": "<n/a>",
+}
+i18n_messages.messages["userfas"].update(
+    {
+        f"pronoun_{k.replace('/', '_').replace(' ', '_')}": v
+        for k, v in PRONOUNS.items()
+    }
+)

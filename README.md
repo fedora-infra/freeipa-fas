@@ -23,10 +23,11 @@ time.
 
 User object is extended by a new *fasUser* object class.
 
+* *fasPronoun*: free-form string with preferred values, writable by self
 * *fasTimeZone*: string, writable by self
 * *fasLocale*: string, writable by self
 * *fasIRCNick*: multi-valued string, writable by self, indexed
-* *fasGPGKeyId*: multi-valued string, writable by self, indexec
+* *fasGPGKeyId*: multi-valued string, writable by self, indexed
 * *fasCreationTime*: timestamp, writable by admin
 * *fasStatusNote*: string, writable by admin
 * *fasRHBZEmail*: string, writable by self
@@ -80,6 +81,7 @@ groups.
 * Index on ``fasIRCNick`` for presence and equality
 * Index on ``fasGPGKeyId`` for presence and equality
 * Uniqueness of ``mail`` attributes
+* Index on ``fasPronoun`` for presence and equality
 
 ## Command line extension
 
@@ -93,6 +95,13 @@ $ ipa user-mod --help
   --fasstatusnote=STR   User status note
   --fascreationtime=DATETIME
                         user creation time
+  --fasrhbzemail=STR    Red Hat bugzilla email
+  --fasgithubusername=STR
+                        GitHub username
+  --fasgitlabusername=STR
+                        GitLab username
+  --faspronoun=['she/her', 'he/him', 'they/them', 'ask me']
+                        Pronoun (free-form field with suggested values)
   ...
 ```
 
@@ -133,6 +142,24 @@ $ ipa group-find somegroup
   Group name: somegroup
   GID: 54400007
   FAS group: True
+----------------------------
+Number of entries returned 1
+----------------------------
+```
+
+The new command ``user-find-pronoun-variations`` lists users with
+pronouns outside the set of pre-defined values.
+
+```
+$ ipa user-find-pronoun-variations
+--------------
+1 user matched
+--------------
+  User login: fasuser1
+  First name: User1
+  Last name: Demo
+  Email address: fasuser1@fas.example
+  Pronoun: my custom pronoun
 ----------------------------
 Number of entries returned 1
 ----------------------------

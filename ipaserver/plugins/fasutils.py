@@ -1,6 +1,12 @@
+#
+# FreeIPA plugin for Fedora Account System
+# Copyright (C) 2020  FAS Contributors
+# See COPYING for license
+#
+import re
 from urllib.parse import urlparse
 
-from ipalib.parameters import Str
+from ipalib.parameters import Str, StrEnum
 from ipapython.ipavalidate import Email as valid_email
 
 
@@ -46,3 +52,34 @@ class IRCChannel(Str):
         if not value.startswith("irc:"):
             value = "irc:///{}".format(value)
         return value
+
+
+class FilteredStrEnum(StrEnum):
+    """String enum without member enforcement and block list
+
+    *values* are recommended values. Users are permitted to use custom values
+    except for values in *blocked_values*.
+    """
+
+    kwargs = StrEnum.kwargs + (("blocked_values", frozenset, frozenset()),)
+
+    def _rule_values(self, *args, **kw):
+        """Don't enforce membership check
+        """
+        return None
+
+    def _rule_blocked_values(self, _, value, **kw):
+        """Block unwanted values
+        """
+        if value in self.values:
+            # ok, known value
+            return None
+        # normalize, lower-case, and filtered string
+        # remove everything that is not unicode equivalent of [a-z0-9_]
+        mangled = re.sub(r"\W", "", value).lower()
+        if any(blocked in mangled for blocked in self.blocked_values):
+            return _("pronoun '{value}' is not permitted.").format(
+                value=value
+            )
+        else:
+            return None

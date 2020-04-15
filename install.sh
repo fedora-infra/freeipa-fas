@@ -11,7 +11,6 @@ fi
 
 cp schema.d/89-fasschema.ldif /usr/share/ipa/schema.d/
 rm -f /usr/share/ipa/schema.d/99-fasschema.ldif
-
 cp updates/89-fas.update /usr/share/ipa/updates/
 rm -f /usr/share/ipa/updates/99-fas.update
 
