@@ -7,94 +7,14 @@
 """
 from ipalib import _
 from ipalib import errors
-from ipalib.parameters import DateTime, Str
 
 from ipaserver.plugins.user import user
 from ipaserver.plugins.user import user_add
 from ipaserver.plugins.user import user_mod
-from ipaserver.plugins.stageuser import stageuser
-from ipaserver.plugins.stageuser import stageuser_add
-from ipaserver.plugins.stageuser import stageuser_mod
-from ipaserver.plugins.internal import i18n_messages
 
-user.possible_objectclasses.append("fasuser")
-stageuser.possible_objectclasses.append("fasuser")
+from .baseruserfas import takes_params
 
-default_attributes = [
-    "fastimezone",
-    "faslocale",
-    "fasircnick",
-    "fasgpgkeyid",
-    "fasstatusnote",
-    "fascreationtime",
-    "fasrhbzemail",
-    "fasgithubusername",
-    "fasgitlabusername",
-]
-user.default_attributes.extend(default_attributes)
-stageuser.default_attributes.extend(default_attributes)
-
-takes_params = (
-    Str(
-        "fastimezone?",
-        cli_name="fastimezone",
-        label=_("user timezone"),
-        maxlength=64,
-    ),
-    Str(
-        "faslocale?",
-        cli_name="faslocale",
-        label=_("user locale"),
-        maxlength=64,
-    ),
-    Str(
-        "fasircnick*",
-        cli_name="fasircnick",
-        label=_("IRC nick name"),
-        maxlength=64,
-    ),
-    Str(
-        "fasgpgkeyid*",
-        cli_name="fasgpgkeyid",
-        label=_("GPG Key ids"),
-        maxlength=16,
-    ),
-    Str(
-        "fasstatusnote?",
-        cli_name="fasstatusnote",
-        label=_("User status note"),
-    ),
-    DateTime(
-        "fascreationtime?",
-        cli_name="fascreationtime",
-        label=_("user creation time"),
-    ),
-    Str(
-        "fasrhbzemail?",
-        cli_name="fasrhbzemail",
-        label=_("Red Hat bugzilla email"),
-        maxlength=255,
-        normalizer=lambda value: value.strip(),
-    ),
-    Str(
-        "fasgithubusername?",
-        cli_name="fasgithubusername",
-        label=_("GitHub username"),
-        maxlength=255,
-        normalizer=lambda value: value.strip(),
-    ),
-    Str(
-        "fasgitlabusername?",
-        cli_name="fasgitlabusername",
-        label=_("GitLab username"),
-        maxlength=255,
-        normalizer=lambda value: value.strip(),
-    ),
-)
 user.takes_params += takes_params
-stageuser.takes_params += takes_params
-
-i18n_messages.messages["userfas"] = {"name": _("Fedora Account System")}
 
 
 def check_fasuser_attr(entry):
@@ -119,7 +39,6 @@ def user_add_fas_precb(self, ldap, dn, entry, attrs_list, *keys, **options):
 
 
 user_add.register_pre_callback(user_add_fas_precb)
-stageuser_add.register_pre_callback(user_add_fas_precb)
 
 
 def user_mod_fas_precb(self, ldap, dn, entry, attrs_list, *keys, **options):
@@ -136,4 +55,3 @@ def user_mod_fas_precb(self, ldap, dn, entry, attrs_list, *keys, **options):
 
 
 user_mod.register_pre_callback(user_mod_fas_precb)
-stageuser_mod.register_pre_callback(user_mod_fas_precb)
