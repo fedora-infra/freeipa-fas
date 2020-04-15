@@ -82,6 +82,9 @@ $ ipa user-mod --help
 
 The `ipa stageuser-add` command is extended in the same way.
 
+Stage user plugin ensures that a stage user does not have the same
+login or email address as another user (active, staged, or deleted).
+
 The group add, modification, and find commands have an additional
 option ``--fasgroup``.
 
