@@ -35,6 +35,7 @@ define([
                     name: 'faslocale',
                     flags: ['w_if_no_aci']
                 }, {
+                    $type: 'multivalued',
                     name: 'fasircnick',
                     flags: ['w_if_no_aci']
                 }, {
