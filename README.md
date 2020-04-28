@@ -121,3 +121,14 @@ $ ipa group-find somegroup
 Number of entries returned 1
 ----------------------------
 ```
+
+## Service delegation
+
+The s4u2proxy service delegation rule ``fasjson-http-delegation``
+allows fasjson services to impersonate users when talking to IPA's
+LDAP servers. All fasjson services must be added to the rule with:
+
+```
+$ ipa servicedelegationrule-add-member \
+      --principals=HTTP/$(hostname) fasjson-http-delegation
+```

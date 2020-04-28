@@ -82,3 +82,12 @@ add:uniqueness-exclude-subtrees: cn=staged users,cn=accounts,cn=provisioning,$SU
 
 dn: cn=ipaUniqueID uniqueness,cn=plugins,cn=config
 add:uniqueness-exclude-subtrees: cn=staged users,cn=accounts,cn=provisioning,$SUFFIX
+
+# Default service delegation target to allow fasjson HTTP principal to
+# impersonate users when talking to LDAP.
+dn: cn=fasjson-http-delegation,cn=s4u2proxy,cn=etc,$SUFFIX
+default:objectClass: top
+default:objectClass: groupOfPrincipals
+default:objectClass: ipaKrb5DelegationACL
+default:cn: fasjson-http-delegation
+default:ipaAllowedTarget: cn=ipa-ldap-delegation-targets,cn=s4u2proxy,cn=etc,$SUFFIX
