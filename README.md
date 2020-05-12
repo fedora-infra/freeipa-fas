@@ -32,6 +32,7 @@ User object is extended by a new *fasUser* object class.
 * *fasRHBZEmail*: string, writable by self
 * *fasGitHubUsername*: string, writable by self
 * *fasGitLabUsername*: string, writable by self
+* *fasUserAgreements*: string, writable by self
 
 This also applies to stage users.
 
@@ -77,6 +78,8 @@ $ ipa user-mod --help
   --fasstatusnote=STR   User status note
   --fascreationtime=DATETIME
                         user creation time
+  --fasuseragreements=STR
+                        user agreements signed
   ...
 ```
 

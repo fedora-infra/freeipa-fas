@@ -61,6 +61,10 @@ define([
                 }, {
                     name: 'fasstatusnote',
                     flags: ['w_if_no_aci']
+                }, {
+                    $type: 'multivalued',
+                    name: 'fasuseragreements',
+                    flags: ['w_if_no_aci']
                 }]
             };
             [IPA.user.entity_spec, IPA.stageuser.stageuser_spec].forEach(function(spec) {

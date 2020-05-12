@@ -86,6 +86,12 @@ takes_params = (
         maxlength=255,
         normalizer=lambda value: value.strip(),
     ),
+    Str(
+        "fasuseragreements*",
+        cli_name="fasuseragreements",
+        label=_("User Agreements signed"),
+        maxlength=32,
+    ),
 )
 
 i18n_messages.messages["userfas"] = {"name": _("Fedora Account System")}
