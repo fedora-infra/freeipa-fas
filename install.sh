@@ -15,6 +15,8 @@ cp updates/99-fas.update /usr/share/ipa/updates/
 
 mkdir -p -m 755 /usr/share/ipa/ui/js/plugins/userfas
 cp ui/js/plugins/userfas/userfas.js /usr/share/ipa/ui/js/plugins/userfas/
+mkdir -p -m 755 /usr/share/ipa/ui/js/plugins/groupfas
+cp ui/js/plugins/groupfas/groupfas.js /usr/share/ipa/ui/js/plugins/groupfas/
 
 cp ipaserver/plugins/*.py ${SITE_PACKAGES}/ipaserver/plugins/
 python3 -m compileall ${SITE_PACKAGES}/ipaserver/plugins/
