@@ -8,18 +8,25 @@
 Modify group behavior
 """
 from ipalib import _
-from ipalib import errors
-from ipalib.parameters import Flag
+from ipalib.parameters import Flag, Str
 from ipaserver.plugins.group import group
 from ipaserver.plugins.group import group_add
 from ipaserver.plugins.group import group_find
 from ipaserver.plugins.group import group_mod
 from ipaserver.plugins.group import group_remove_member
 from ipaserver.plugins.group import group_show
+from ipaserver.plugins.internal import i18n_messages
 
 group.possible_objectclasses.append("fasgroup")
 if "objectclass" not in group.default_attributes:
     group.default_attributes.append("objectclass")
+
+default_attributes = [
+    "fasurl",
+    "fasmailinglist",
+    "fasircchannel",
+]
+group.default_attributes.extend(default_attributes)
 
 group.takes_params += (
     Flag(
@@ -27,13 +34,31 @@ group.takes_params += (
         label=_("FAS group"),
         flags={"virtual_attribute", "no_create", "no_update", "no_search"},
     ),
+    Str(
+        "fasurl*",
+        cli_name="fasurl",
+        label=_("Group URL"),
+        maxlength=255,
+    ),
+    Str(
+        "fasmailinglist*",
+        cli_name="fasmailinglist",
+        label=_("Mailing list address"),
+        maxlength=255,
+    ),
+    Str(
+        "fasircchannel*",
+        cli_name="fasircchannel",
+        label=_("IRC network and channel"),
+        maxlength=255,
+    ),
 )
 
 group_add.takes_options += (
     Flag(
         "fasgroup",
         cli_name="fasgroup",
-        doc=_("create a FAS group"),
+        doc=_("Create a FAS group"),
         default=False,
     ),
 )
@@ -57,6 +82,23 @@ group_mod.takes_options += (
 )
 
 
+def _format_fasircchannel(value):
+    value = value.lstrip("#")
+    if not value.startswith("irc:"):
+        value = "irc:///{}".format(value)
+    return value
+
+
+def check_fasgroup_attr(entry):
+    """Common function to verify fasgroup attributes
+    """
+    fasircchannel = entry.get("fasircchannel")
+    if fasircchannel is not None:
+        entry["fasircchannel"] = [
+            _format_fasircchannel(value) for value in fasircchannel
+        ]
+
+
 def get_fasgroup_attribute(self, entry_attrs, options):
     if options.get("raw", False):
         return
@@ -68,12 +110,20 @@ group.get_fasgroup_attribute = get_fasgroup_attribute
 
 
 def group_add_fas_precb(
-    self, ldap, dn, entry_attrs, attrs_list, *keys, **options
+    self, ldap, dn, entry, attrs_list, *keys, **options
 ):
-    """Add fasgroup object class
+    """Add fasgroup object class and related attributes.
     """
-    if options.get("fasgroup", False):
-        entry_attrs["objectclass"].append("fasgroup")
+    fas_params = [
+        option for option in options
+        if option.startswith("fas") and option != "fasgroup"
+        # fasgroup is a flag, it's always present: filter it out.
+    ]
+    if options.get("fasgroup", False) or fas_params:
+        # add fasgroup object class
+        entry["objectclass"].append("fasgroup")
+        # check fasgroup attributes
+        check_fasgroup_attr(entry)
     return dn
 
 
@@ -120,17 +170,21 @@ def group_find_fas_postcb(self, ldap, entries, truncated, *args, **options):
 group_find.register_post_callback(group_find_fas_postcb)
 
 
-def group_mod_fas_precb(self, ldap, dn, entry_attrs, *keys, **options):
-    """Add fasgroup object class
+def group_mod_fas_precb(self, ldap, dn, entry, *keys, **options):
+    """Add fasgroup object class and related attributes.
     """
-    if options.get("fasgroup", False):
-        old_entry_attrs = ldap.get_entry(dn, ["objectclass"])
-        if "fasgroup" in old_entry_attrs["objectclass"]:
-            raise errors.EmptyModlist(
-                message=_("This is already a FAS group")
-            )
-        old_entry_attrs["objectclass"].append("fasgroup")
-        entry_attrs["objectclass"] = old_entry_attrs["objectclass"]
+    fas_params = [
+        option for option in options
+        if option.startswith("fas") and option != "fasgroup"
+        # fasgroup is a flag, it's always present: filter it out.
+    ]
+    if options.get("fasgroup", False) or fas_params:
+        entry_oc = ldap.get_entry(dn, ["objectclass"])["objectclass"]
+        if not self.obj.has_objectclass(entry_oc, "fasgroup"):
+            entry_oc.append("fasgroup")
+            entry["objectclass"] = entry_oc
+        # check fasgroup attributes
+        check_fasgroup_attr(entry)
     return dn
 
 
@@ -165,3 +219,5 @@ def group_show_fas_postcb(self, ldap, dn, entry_attrs, *keys, **options):
 
 
 group_show.register_post_callback(group_show_fas_postcb)
+
+i18n_messages.messages["groupfas"] = {"name": _("Fedora Account System")}

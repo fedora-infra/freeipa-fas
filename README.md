@@ -48,6 +48,12 @@ groups.
   don't have the *fasGroup* object class.
 * ``group_remove_member`` also removes member managers
 
+Groups with the *fasGroup* object class have the following optional attributes:
+
+* *fasURL*: multi-valued string
+* *fasIRCChannel*: string
+* *fasMailingList*: string
+
 ## ACIs
 
 * ``Read FAS user attributes``
@@ -55,6 +61,7 @@ groups.
 * ``Users can modify their own Email address``
 * ``Users can remove themselves as members of groups``
 * ``Member managers can remove themselves as member managers of groups``
+* ``Read FAS group attributes``
 
 ## User settings
 
