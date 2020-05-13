@@ -98,5 +98,22 @@ default:objectClass: ipaKrb5DelegationACL
 default:cn: fasjson-http-delegation
 default:ipaAllowedTarget: cn=ipa-ldap-delegation-targets,cn=s4u2proxy,cn=etc,$SUFFIX
 
+# create the container for the user agreements
+dn: cn=agreements,$SUFFIX
+default: objectclass: top
+default: objectclass: nsContainer
+default: cn: agreements
+
+# Agreement Administrators
+dn: cn=Agreement Administrators,cn=privileges,cn=pbac,$SUFFIX
+default:objectClass: nestedgroup
+default:objectClass: groupofnames
+default:objectClass: top
+default:cn: Agreement Administrators
+default:description: Manage FAS user agreements
+
+dn: cn=agreements,$SUFFIX
+add:aci: (targetattr = "member")(targetfilter = "(objectclass=fasagreement)")(version 3.0; acl "Allow users to consent to an agreement"; allow (selfwrite) userattr != "member#USERDN";)
+
 # Update Permissions (keep this at the bottom of the file)
 plugin: update_managed_permissions
