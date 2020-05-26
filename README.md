@@ -32,6 +32,7 @@ User object is extended by a new *fasUser* object class.
 * *fasRHBZEmail*: string, writable by self
 * *fasGitHubUsername*: string, writable by self
 * *fasGitLabUsername*: string, writable by self
+* *fasWebsiteURL*: string, writable by self
 
 This also applies to stage users.
 

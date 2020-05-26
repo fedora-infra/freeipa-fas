@@ -13,6 +13,8 @@ from ipalib.parameters import DateTime, Str
 from ipaserver.plugins.baseuser import baseuser
 from ipaserver.plugins.internal import i18n_messages
 
+from .parameters import URL
+
 # possible object classes and default attributes are shared between all
 # users plugins.
 baseuser.possible_objectclasses.append("fasuser")
@@ -27,6 +29,7 @@ default_attributes = [
     "fasrhbzemail",
     "fasgithubusername",
     "fasgitlabusername",
+    "faswebsiteurl",
 ]
 baseuser.default_attributes.extend(default_attributes)
 
@@ -83,6 +86,13 @@ takes_params = (
         "fasgitlabusername?",
         cli_name="fasgitlabusername",
         label=_("GitLab username"),
+        maxlength=255,
+        normalizer=lambda value: value.strip(),
+    ),
+    URL(
+        "faswebsiteurl?",
+        cli_name="faswebsiteurl",
+        label=_("Website / Blog URL"),
         maxlength=255,
         normalizer=lambda value: value.strip(),
     ),
