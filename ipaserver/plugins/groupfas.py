@@ -222,6 +222,7 @@ def group_show_fas_postcb(self, ldap, dn, entry_attrs, *keys, **options):
 group_show.register_post_callback(group_show_fas_postcb)
 
 i18n_messages.messages["groupfas"] = {
-    "name": _("Fedora Account System"),
+    "section": _("Fedora Account System"),
     "group": _("FAS Group"),
+    "make_fasgroup": _("Change to FAS group"),
 }
