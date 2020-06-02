@@ -35,11 +35,6 @@ dn: cn=groups,cn=accounts,$SUFFIX
 add:aci: (targetattr = "member")(targetfilter = "(objectclass=ipaUserGroup)")(version 3.0; acl "Allow members to remove themselves"; allow (selfwrite) userattr = "member#USERDN";)
 add:aci: (targetattr = "memberManager")(targetfilter = "(objectclass=ipaUserGroup)")(version 3.0; acl "Allow member managers to remove themselves"; allow (selfwrite) userattr = "memberManager#USERDN";)
 
-# ACI to expose FAS group attributes
-dn: cn=groups,cn=accounts,$SUFFIX
-add:aci: (targetattr = "fasURL || fasMailingList || fasIRCChannel")(targetfilter = "(objectclass=fasgroup)")(version 3.0;acl "Read FAS group attributes";allow (compare,read,search) userdn = "ldap:///all";)
-
-
 # Index for FAS user attributes attribute
 dn: cn=fasIRCNick,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
 default:cn: fasIRCNick

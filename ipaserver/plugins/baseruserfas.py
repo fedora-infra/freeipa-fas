@@ -17,7 +17,8 @@ from .fasutils import URL
 
 # possible object classes and default attributes are shared between all
 # users plugins.
-baseuser.possible_objectclasses.append("fasuser")
+if "fasuser" not in baseuser.possible_objectclasses:
+    baseuser.possible_objectclasses.append("fasuser")
 
 fas_user_attributes = [
     "fastimezone",
