@@ -17,16 +17,31 @@ from ipaserver.plugins.group import group_remove_member
 from ipaserver.plugins.group import group_show
 from ipaserver.plugins.internal import i18n_messages
 
-group.possible_objectclasses.append("fasgroup")
-if "objectclass" not in group.default_attributes:
-    group.default_attributes.append("objectclass")
+from .fasutils import URL
 
-default_attributes = [
+if "fasgroup" not in group.possible_objectclasses:
+    group.possible_objectclasses.append("fasgroup")
+
+group_fas_attributes = [
     "fasurl",
     "fasmailinglist",
     "fasircchannel",
 ]
-group.default_attributes.extend(default_attributes)
+group.default_attributes.extend(group_fas_attributes)
+# always fetch objectclass so group_show can show fasgroup property
+group.default_attributes.append("objectclass")
+
+group.managed_permissions.update(
+    {
+        "System: Read FAS group attributes": {
+            "replaces_global_anonymous_aci": True,
+            "ipapermbindruletype": "all",
+            "ipapermright": {"read", "search", "compare"},
+            "ipapermtargetfilter": ["(objectclass=fasgroup)"],
+            "ipapermdefaultattr": set(group_fas_attributes),
+        },
+    }
+)
 
 group.takes_params += (
     Flag(
@@ -34,13 +49,8 @@ group.takes_params += (
         label=_("FAS group"),
         flags={"virtual_attribute", "no_create", "no_update", "no_search"},
     ),
-    Str(
-        "fasurl*",
-        cli_name="fasurl",
-        label=_("Group URL"),
-        maxlength=255,
-    ),
-    Str(
+    URL("fasurl*", cli_name="fasurl", label=_("Group URL"), maxlength=255,),
+    URL(
         "fasmailinglist*",
         cli_name="fasmailinglist",
         label=_("Mailing list address"),
@@ -109,19 +119,12 @@ def get_fasgroup_attribute(self, entry_attrs, options):
 group.get_fasgroup_attribute = get_fasgroup_attribute
 
 
-def group_add_fas_precb(
-    self, ldap, dn, entry, attrs_list, *keys, **options
-):
+def group_add_fas_precb(self, ldap, dn, entry, attrs_list, *keys, **options):
     """Add fasgroup object class and related attributes.
     """
-    fas_params = [
-        option for option in options
-        if option.startswith("fas") and option != "fasgroup"
-        # fasgroup is a flag, it's always present: filter it out.
-    ]
-    if options.get("fasgroup", False) or fas_params:
-        # add fasgroup object class
-        entry["objectclass"].append("fasgroup")
+    if any(option.startswith("fas") for option in options):
+        if not self.obj.has_objectclass(entry["objectclass"], "fasgroup"):
+            entry["objectclass"].append("fasgroup")
         # check fasgroup attributes
         check_fasgroup_attr(entry)
     return dn
@@ -173,16 +176,13 @@ group_find.register_post_callback(group_find_fas_postcb)
 def group_mod_fas_precb(self, ldap, dn, entry, *keys, **options):
     """Add fasgroup object class and related attributes.
     """
-    fas_params = [
-        option for option in options
-        if option.startswith("fas") and option != "fasgroup"
-        # fasgroup is a flag, it's always present: filter it out.
-    ]
-    if options.get("fasgroup", False) or fas_params:
-        entry_oc = ldap.get_entry(dn, ["objectclass"])["objectclass"]
-        if not self.obj.has_objectclass(entry_oc, "fasgroup"):
+    if any(option.startswith("fas") for option in options):
+        # add fasgroup object class
+        if "objectclass" not in entry:
+            entry_oc = ldap.get_entry(dn, ["objectclass"])
+            entry["objectclass"] = entry_oc["objectclass"]
+        if not self.obj.has_objectclass(entry["objectclass"], "fasgroup"):
             entry_oc.append("fasgroup")
-            entry["objectclass"] = entry_oc
         # check fasgroup attributes
         check_fasgroup_attr(entry)
     return dn
@@ -221,3 +221,4 @@ def group_show_fas_postcb(self, ldap, dn, entry_attrs, *keys, **options):
 group_show.register_post_callback(group_show_fas_postcb)
 
 i18n_messages.messages["groupfas"] = {"name": _("Fedora Account System")}
+i18n_messages.messages["fasgroup"] = {"name": _("FAS Group")}

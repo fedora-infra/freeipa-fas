@@ -21,11 +21,15 @@ define([
 
         var groupfas_plugin = {};
 
-        groupfas_plugin.add_user_fas_pre_op = function() {
+        groupfas_plugin.add_group_fas_pre_op = function() {
             var section = {
                 name: 'groupfas',
                 label: '@i18n:groupfas.name',
                 fields: [{
+                    name: 'fasgroup',
+                    $type: 'checkbox',
+                    flags: ['w_if_no_aci']
+                },{
                     name: 'fasurl',
                     $type: 'multivalued',
                     flags: ['w_if_no_aci']
@@ -42,7 +46,19 @@ define([
             return true;
         };
 
-        phases.on('customization', groupfas_plugin.add_user_fas_pre_op);
+        groupfas_plugin.add_search_group_fas = function() {
+            var fasgroup = {
+                name: 'fasgroup',
+                label: '@i18n:groupfas.fasgroup',
+                formatter: 'boolean_status',
+            };
+            var facet = get_item(IPA.group.entity_spec.facets, '$type', 'search');
+            facet['columns'].splice(1, 0, fasgroup);
+            return true;
+        };
+
+        phases.on('customization', groupfas_plugin.add_group_fas_pre_op);
+        phases.on('customization', groupfas_plugin.add_search_group_fas);
 
         return groupfas_plugin;
     });
