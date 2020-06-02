@@ -1,6 +1,6 @@
 //
 // FreeIPA plugin for Fedora Account System
-// Copyright (C) 2019  Christian Heimes <cheimes@redhat.com>
+// Copyright (C) 2020  FAS Contributors
 // See COPYING for license
 //
 
@@ -49,8 +49,8 @@ define([
         groupfas_plugin.add_search_group_fas = function() {
             var fasgroup = {
                 name: 'fasgroup',
-                label: '@i18n:groupfas.fasgroup',
-                formatter: 'boolean_status',
+                label: '@i18n:groupfas.group',
+                formatter: 'boolean_status'
             };
             var facet = get_item(IPA.group.entity_spec.facets, '$type', 'search');
             facet['columns'].splice(1, 0, fasgroup);
