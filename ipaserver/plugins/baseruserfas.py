@@ -13,7 +13,7 @@ from ipalib.parameters import DateTime, Str
 from ipaserver.plugins.baseuser import baseuser
 from ipaserver.plugins.internal import i18n_messages
 
-from .parameters import URL
+from .fasutils import URL
 
 # possible object classes and default attributes are shared between all
 # users plugins.
