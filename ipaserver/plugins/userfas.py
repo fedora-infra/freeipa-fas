@@ -12,9 +12,31 @@ from ipaserver.plugins.user import user
 from ipaserver.plugins.user import user_add
 from ipaserver.plugins.user import user_mod
 
-from .baseruserfas import takes_params
+from .baseruserfas import takes_params, fas_user_attributes
 
 user.takes_params += takes_params
+
+user.managed_permissions.update(
+    {
+        "System: Read FAS user attributes": {
+            "replaces_global_anonymous_aci": True,
+            "ipapermbindruletype": "all",
+            "ipapermright": {"read", "search", "compare"},
+            "ipapermtargetfilter": ["(objectclass=fasuser)"],
+            "ipapermdefaultattr": {"nsAccountLock"}.union(
+                fas_user_attributes
+            ),
+        },
+        # not yet supported
+        # "System: Self-Modify FAS user attributes": {
+        #     "replaces_global_anonymous_aci": True,
+        #     "ipapermright": {"write"},
+        #     "ipapermtargetfilter": ["(objectclass=fasuser)"],
+        #     "ipapermbindruletype": "self",
+        #     "ipapermdefaultattr": fas_user_attributes.copy(),
+        # },
+    },
+)
 
 
 def check_fasuser_attr(entry):
