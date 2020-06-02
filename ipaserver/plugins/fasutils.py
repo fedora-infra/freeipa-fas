@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
 
 from ipalib.parameters import Str
+from ipalib.ipavalidate import Email as valid_email
 
 
 class URL(Str):
@@ -22,3 +23,26 @@ class URL(Str):
         if not url.netloc:
             return _("empty host name")
         return None
+
+
+class Email(Str):
+    kwargs = Str.kwargs + (("email", bool, True),)
+
+    def _rule_email(self, _, value):
+        if not valid_email(value):
+            return _("Invalid email address")
+        return None
+
+
+class IRCChannel(Str):
+    kwargs = Str.kwargs + (("ircurl", bool, True),)
+
+    def _rule_ircurl(self, _, value):
+        return None
+
+    def _convert_scalar(self, value, index=None):
+        value = super()._convert_scalar(value, index)
+        value = value.lstrip("#")
+        if not value.startswith("irc:"):
+            value = "irc:///{}".format(value)
+        return value

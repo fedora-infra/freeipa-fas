@@ -1,6 +1,6 @@
 #
 # FreeIPA plugin for Fedora Account System
-# Copyright (C) 2019  Christian Heimes <cheimes@redhat.com>
+# Copyright (C) 2020  FAS Contributors
 # See COPYING for license
 #
 """FreeIPA plugin for Fedora Account System
@@ -17,7 +17,7 @@ from ipaserver.plugins.group import group_remove_member
 from ipaserver.plugins.group import group_show
 from ipaserver.plugins.internal import i18n_messages
 
-from .fasutils import URL
+from .fasutils import Email, IRCChannel, URL
 
 if "fasgroup" not in group.possible_objectclasses:
     group.possible_objectclasses.append("fasgroup")
@@ -29,7 +29,8 @@ group_fas_attributes = [
 ]
 group.default_attributes.extend(group_fas_attributes)
 # always fetch objectclass so group_show can show fasgroup property
-group.default_attributes.append("objectclass")
+if "objectclass" not in group.default_attributes:
+    group.default_attributes.append("objectclass")
 
 group.managed_permissions.update(
     {
@@ -50,13 +51,13 @@ group.takes_params += (
         flags={"virtual_attribute", "no_create", "no_update", "no_search"},
     ),
     URL("fasurl*", cli_name="fasurl", label=_("Group URL"), maxlength=255,),
-    URL(
+    Email(
         "fasmailinglist*",
         cli_name="fasmailinglist",
         label=_("Mailing list address"),
         maxlength=255,
     ),
-    Str(
+    IRCChannel(
         "fasircchannel*",
         cli_name="fasircchannel",
         label=_("IRC network and channel"),
@@ -92,21 +93,10 @@ group_mod.takes_options += (
 )
 
 
-def _format_fasircchannel(value):
-    value = value.lstrip("#")
-    if not value.startswith("irc:"):
-        value = "irc:///{}".format(value)
-    return value
-
-
 def check_fasgroup_attr(entry):
     """Common function to verify fasgroup attributes
     """
-    fasircchannel = entry.get("fasircchannel")
-    if fasircchannel is not None:
-        entry["fasircchannel"] = [
-            _format_fasircchannel(value) for value in fasircchannel
-        ]
+    pass
 
 
 def get_fasgroup_attribute(self, entry_attrs, options):
@@ -119,10 +109,21 @@ def get_fasgroup_attribute(self, entry_attrs, options):
 group.get_fasgroup_attribute = get_fasgroup_attribute
 
 
+def _has_fasgroup_options(options):
+    """Check there is a FAS option in options"""
+    # --fasgroup flag is True
+    if options.get("fasgroup"):
+        return True
+    # other FAS option except 'fasgroup' (might be present and False)
+    return any(
+        option.startswith("fas") for option in options if option != "fasgroup"
+    )
+
+
 def group_add_fas_precb(self, ldap, dn, entry, attrs_list, *keys, **options):
     """Add fasgroup object class and related attributes.
     """
-    if any(option.startswith("fas") for option in options):
+    if _has_fasgroup_options(options):
         if not self.obj.has_objectclass(entry["objectclass"], "fasgroup"):
             entry["objectclass"].append("fasgroup")
         # check fasgroup attributes
@@ -176,13 +177,13 @@ group_find.register_post_callback(group_find_fas_postcb)
 def group_mod_fas_precb(self, ldap, dn, entry, *keys, **options):
     """Add fasgroup object class and related attributes.
     """
-    if any(option.startswith("fas") for option in options):
+    if _has_fasgroup_options(options):
         # add fasgroup object class
         if "objectclass" not in entry:
             entry_oc = ldap.get_entry(dn, ["objectclass"])
             entry["objectclass"] = entry_oc["objectclass"]
         if not self.obj.has_objectclass(entry["objectclass"], "fasgroup"):
-            entry_oc.append("fasgroup")
+            entry.append("fasgroup")
         # check fasgroup attributes
         check_fasgroup_attr(entry)
     return dn
@@ -220,5 +221,7 @@ def group_show_fas_postcb(self, ldap, dn, entry_attrs, *keys, **options):
 
 group_show.register_post_callback(group_show_fas_postcb)
 
-i18n_messages.messages["groupfas"] = {"name": _("Fedora Account System")}
-i18n_messages.messages["fasgroup"] = {"name": _("FAS Group")}
+i18n_messages.messages["groupfas"] = {
+    "name": _("Fedora Account System"),
+    "group": "FAS Group",
+}
