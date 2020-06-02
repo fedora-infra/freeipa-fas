@@ -14,17 +14,21 @@ only:ipaUserAuthType: otp
 
 # ACI to expose FAS user attributes
 dn: cn=users,cn=accounts,$SUFFIX
+# read access is now handled by managed permission
 remove:aci: (targetattr = "nsAccountLock || fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasCreationTime || fasStatusNote")(targetfilter = "(objectclass=fasuser)")(version 3.0;acl "Read FAS user attributes";allow (compare,read,search) userdn = "ldap:///all";)
 remove:aci: (targetattr = "nsAccountLock || fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasCreationTime || fasStatusNote || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername")(targetfilter = "(objectclass=fasuser)")(version 3.0;acl "Read FAS user attributes";allow (compare,read,search) userdn = "ldap:///all";)
-add:aci: (targetattr = "nsAccountLock || fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasCreationTime || fasStatusNote || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteURL")(targetfilter = "(objectclass=fasuser)")(version 3.0;acl "Read FAS user attributes";allow (compare,read,search) userdn = "ldap:///all";)
+remove:aci: (targetattr = "nsAccountLock || fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasCreationTime || fasStatusNote || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteURL")(targetfilter = "(objectclass=fasuser)")(version 3.0;acl "Read FAS user attributes";allow (compare,read,search) userdn = "ldap:///all";)
 
+# write access is now a self-service permission
 remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId")(version 3.0;acl "Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
 remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername")(version 3.0;acl "Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
-add:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteURL")(version 3.0;acl "Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
+remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteURL")(version 3.0;acl "Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
 
 # self-service permissions to allow users to modify their own mail address
+# and their own FAS attributes
 dn: $SUFFIX
 add:aci: (targetattr = "mail")(version 3.0;acl "selfservice:Users can manage their own email address";allow (write) userdn = "ldap:///self";)
+add:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteURL")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
 
 # allow members and member managers to remove themselves from a group
 dn: cn=groups,cn=accounts,$SUFFIX
@@ -93,3 +97,6 @@ default:objectClass: groupOfPrincipals
 default:objectClass: ipaKrb5DelegationACL
 default:cn: fasjson-http-delegation
 default:ipaAllowedTarget: cn=ipa-ldap-delegation-targets,cn=s4u2proxy,cn=etc,$SUFFIX
+
+# Update Permissions (keep this at the bottom of the file)
+plugin: update_managed_permissions

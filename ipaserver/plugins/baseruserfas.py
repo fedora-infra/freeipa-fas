@@ -19,7 +19,7 @@ from .fasutils import URL
 # users plugins.
 baseuser.possible_objectclasses.append("fasuser")
 
-default_attributes = [
+fas_user_attributes = [
     "fastimezone",
     "faslocale",
     "fasircnick",
@@ -31,7 +31,7 @@ default_attributes = [
     "fasgitlabusername",
     "faswebsiteurl",
 ]
-baseuser.default_attributes.extend(default_attributes)
+baseuser.default_attributes.extend(fas_user_attributes)
 
 takes_params = (
     Str(
