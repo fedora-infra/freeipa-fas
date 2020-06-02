@@ -5,8 +5,6 @@
 #
 """FreeIPA plugin for Fedora Account System
 """
-from urllib.parse import urlparse
-
 from ipalib import _
 from ipalib import errors
 
