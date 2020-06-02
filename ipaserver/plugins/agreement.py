@@ -1,4 +1,12 @@
-from ipalib import api, errors, output
+#
+# FreeIPA plugin for Fedora Account System
+# See COPYING for license
+#
+"""User agreement for Fedora Account System
+
+Member users are stored in "memberUser" attribute while related groups are
+stored in "member" attribute. FreeIPA does not have a "memberGroup" attribute.
+"""
 from ipalib import Bool, Str, StrEnum
 from ipalib.plugable import Registry
 from ipaserver.plugins.baseldap import (
@@ -13,15 +21,17 @@ from ipaserver.plugins.baseldap import (
     global_output_params,
     pkey_to_value,
 )
-from ipaserver.plugins.hbacrule import is_all
 from ipalib import _, ngettext
 from ipapython.dn import DN
-
+from ipaserver.plugins.internal import i18n_messages
 
 __doc__ = _(
     """
 """
 )
+
+
+agreement_output_params = ()
 
 register = Registry()
 
@@ -41,11 +51,14 @@ class agreement(LDAPObject):
         "cn",
         "description",
         "member",
+        "memberuser",
     ]
     uuid_attribute = "ipauniqueid"
     attribute_members = {
-        "member": ["user"],
+        "memberuser": ["user"],
+        "member": ["group"],
     }
+    allow_rename = True
     managed_permissions = {
         "System: Read FAS Agreements": {
             "replaces_global_anonymous_aci": True,
@@ -55,8 +68,9 @@ class agreement(LDAPObject):
                 "cn",
                 "description",
                 "ipauniqueid",
-                "objectclass",
+                "ipaenabledflag",
                 "member",
+                "memberuser",
             },
         },
         "System: Add FAS Agreement": {
@@ -67,14 +81,19 @@ class agreement(LDAPObject):
             "ipapermright": {"delete"},
             "default_privileges": {"Agreement Administrators"},
         },
-        "System: Manage FAS Agreement Membership": {
+        "System: Manage FAS Agreement user membership": {
             "ipapermright": {"write"},
-            "ipapermdefaultattr": {"member"},
+            "ipapermdefaultattr": {"memberUser"},
             "default_privileges": {"Agreement Administrators"},
         },
         "System: Modify FAS Agreement": {
             "ipapermright": {"write"},
-            "ipapermdefaultattr": {"cn", "description", "ipaenabledflag",},
+            "ipapermdefaultattr": {
+                "cn",
+                "description",
+                "ipaenabledflag",
+                "member",
+            },
             "default_privileges": {"Agreement Administrators"},
         },
     }
@@ -92,6 +111,7 @@ class agreement(LDAPObject):
         Str(
             "description?", cli_name="desc", label=_("Agreement Description"),
         ),
+        Bool("ipaenabledflag?", label=_("Enabled"), flags=["no_option"],),
     )
 
 
@@ -99,6 +119,7 @@ class agreement(LDAPObject):
 class agreement_add(LDAPCreate):
     __doc__ = _("Create a new User Agreement.")
 
+    has_output_params = LDAPCreate.has_output_params + agreement_output_params
     msg_summary = _('Added User Agreement "%(value)s"')
 
     def pre_callback(
@@ -119,6 +140,7 @@ class agreement_del(LDAPDelete):
 class agreement_mod(LDAPUpdate):
     __doc__ = _("Modify a User Agreement.")
 
+    has_output_params = LDAPUpdate.has_output_params + agreement_output_params
     msg_summary = _('Modified User Agreement "%(value)s"')
 
 
@@ -126,6 +148,9 @@ class agreement_mod(LDAPUpdate):
 class agreement_find(LDAPSearch):
     __doc__ = _("Search for User Agreements.")
 
+    member_attributes = ["member", "memberuser"]
+
+    has_output_params = LDAPSearch.has_output_params + agreement_output_params
     msg_summary = ngettext(
         "%(count)d User Agreement matched",
         "%(count)d User Agreements matched",
@@ -136,6 +161,10 @@ class agreement_find(LDAPSearch):
 @register()
 class agreement_show(LDAPRetrieve):
     __doc__ = _("Display the properties of a User Agreeement.")
+
+    has_output_params = (
+        LDAPRetrieve.has_output_params + agreement_output_params
+    )
 
 
 @register()
@@ -152,3 +181,22 @@ class agreement_remove_user(LDAPRemoveMember):
 
     member_attributes = ["memberuser"]
     member_count_out = (_("%i user removed."), _("%i users removed."))
+
+
+@register()
+class agreement_add_group(LDAPAddMember):
+    __doc__ = _("Add group to a User Agreement")
+
+    member_attributes = ["member"]
+    member_count_out = (_("%i group added."), _("%i groups added."))
+
+
+@register()
+class agreement_remove_group(LDAPRemoveMember):
+    __doc__ = _("Remove group from a User Agreement")
+
+    member_attributes = ["member"]
+    member_count_out = (_("%i group removed."), _("%i groups removed."))
+
+
+i18n_messages.messages["agreement"] = {"agreements": _("User Agreement")}

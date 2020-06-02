@@ -29,4 +29,4 @@ attributeTypes: ( 1.3.6.1.4.1.30401.1.1.22 NAME 'fasIRCChannel' EQUALITY caseIgn
 objectClasses: ( 1.3.6.1.4.1.30401.1.2.2 NAME 'fasGroup' DESC 'FAS group objectclass' SUP ipaUserGroup AUXILIARY MAY ( fasURL $ fasMailingList $ fasIRCChannel ) X-ORIGIN 'Fedora Account System' )
 #
 # agreements
-objectClasses: ( 1.3.6.1.4.1.30401.1.2.3 NAME 'fasAgreement' DESC 'FAS agreement objectclass' SUP ipaAssociation X-ORIGIN 'Fedora Account System' )
+objectClasses: ( 1.3.6.1.4.1.30401.1.2.3 NAME 'fasAgreement' DESC 'FAS agreement objectclass' SUP ipaAssociation MAY ( member ) X-ORIGIN 'Fedora Account System' )

@@ -113,7 +113,7 @@ default:cn: Agreement Administrators
 default:description: Manage FAS user agreements
 
 dn: cn=agreements,$SUFFIX
-add:aci: (targetattr = "member")(targetfilter = "(objectclass=fasagreement)")(version 3.0; acl "Allow users to consent to an agreement"; allow (selfwrite) userattr != "member#USERDN";)
+add:aci: (targetattr = "memberUser")(targetfilter = "(&(objectclass=fasagreement)(ipaenabledflag='TRUE'))")(version 3.0; acl "Allow users to consent to an agreement"; allow (selfwrite) userattr != "memberUser#USERDN";)
 
 # Update Permissions (keep this at the bottom of the file)
 plugin: update_managed_permissions
