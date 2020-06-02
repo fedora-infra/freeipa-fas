@@ -42,6 +42,9 @@ define([
                     name: 'fastimezone',
                     flags: ['w_if_no_aci']
                 }, {
+                    name: 'faswebsiteurl',
+                    flags: ['w_if_no_aci']
+                }, {
                     name: 'fasrhbzemail',
                     flags: ['w_if_no_aci']
                 }, {
