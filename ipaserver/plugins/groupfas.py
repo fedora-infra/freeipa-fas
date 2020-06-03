@@ -183,7 +183,7 @@ def group_mod_fas_precb(self, ldap, dn, entry, *keys, **options):
             entry_oc = ldap.get_entry(dn, ["objectclass"])
             entry["objectclass"] = entry_oc["objectclass"]
         if not self.obj.has_objectclass(entry["objectclass"], "fasgroup"):
-            entry.append("fasgroup")
+            entry["objectclass"].append("fasgroup")
         # check fasgroup attributes
         check_fasgroup_attr(entry)
     return dn
@@ -223,5 +223,5 @@ group_show.register_post_callback(group_show_fas_postcb)
 
 i18n_messages.messages["groupfas"] = {
     "name": _("Fedora Account System"),
-    "group": "FAS Group",
+    "group": _("FAS Group"),
 }
