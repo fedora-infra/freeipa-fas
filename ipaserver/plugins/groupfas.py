@@ -8,7 +8,7 @@
 Modify group behavior
 """
 from ipalib import _
-from ipalib.parameters import Flag, Str
+from ipalib.parameters import Flag
 from ipaserver.plugins.group import group
 from ipaserver.plugins.group import group_add
 from ipaserver.plugins.group import group_find
@@ -50,9 +50,9 @@ group.takes_params += (
         label=_("FAS group"),
         flags={"virtual_attribute", "no_create", "no_update", "no_search"},
     ),
-    URL("fasurl*", cli_name="fasurl", label=_("Group URL"), maxlength=255,),
+    URL("fasurl?", cli_name="fasurl", label=_("Group URL"), maxlength=255,),
     Email(
-        "fasmailinglist*",
+        "fasmailinglist?",
         cli_name="fasmailinglist",
         label=_("Mailing list address"),
         maxlength=255,
