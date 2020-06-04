@@ -1,7 +1,7 @@
 from urllib.parse import urlparse
 
 from ipalib.parameters import Str
-from ipalib.ipavalidate import Email as valid_email
+from ipapython.ipavalidate import Email as valid_email
 
 
 class URL(Str):
