@@ -72,7 +72,7 @@ define([
                     return command;
                 };
                 return that;
-            }
+            };
             IPA.group.entity_spec.adder_dialog["$factory"] = IPA.fasgroup_adder_dialog;
 
             return true;
