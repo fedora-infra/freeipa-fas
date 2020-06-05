@@ -66,6 +66,7 @@ class fasagreement(LDAPObject):
             "ipapermbindruletype": "all",
             "ipapermright": {"read", "search", "compare"},
             "ipapermdefaultattr": {
+                "objectclass",
                 "cn",
                 "description",
                 "ipauniqueid",

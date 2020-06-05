@@ -112,8 +112,12 @@ default:objectClass: top
 default:cn: FAS Agreement Administrators
 default:description: Manage FAS user agreements
 
+# Allow users to consent to an enabled agreement but don't allow users to
+# retract any agreement. NOTE: fasagreement-add-user now fails with write
+# permission error when user is already a memberuser.
 dn: cn=fasagreements,$SUFFIX
-add:aci: (targetattr = "memberUser")(targetfilter = "(&(objectclass=fasagreement)(ipaenabledflag='TRUE'))")(version 3.0; acl "Allow users to consent to an agreement"; allow (selfwrite) userattr != "memberUser#USERDN";)
+add:aci: (targetattr = "memberUser")(targetfilter = "(objectclass=fasagreement)")(version 3.0; acl "Forbid users to retract an agreement"; deny (selfwrite) userattr = "memberUser#USERDN";)
+add:aci: (targetattr = "memberUser")(targetfilter = "(&(objectclass=fasagreement)(ipaenabledflag=TRUE))")(version 3.0; acl "Allow users to consent to an agreement"; allow (selfwrite) userdn = "ldap:///all";)
 
 # Update Permissions (keep this at the bottom of the file)
 plugin: update_managed_permissions
