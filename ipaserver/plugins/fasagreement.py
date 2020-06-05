@@ -31,18 +31,17 @@ __doc__ = _(
 )
 
 
-agreement_output_params = ()
+fasagreement_output_params = ()
 
 register = Registry()
 
 
 @register()
-class agreement(LDAPObject):
-    """
-    User Agreement object.
+class fasagreement(LDAPObject):
+    """User Agreement object for FAS
     """
 
-    container_dn = DN(("cn", "agreements"))
+    container_dn = DN(("cn", "fasagreements"))
     object_name = _("Agreement")
     object_name_plural = _("Agreements")
     object_class = ["ipaassociation", "fasagreement"]
@@ -75,16 +74,16 @@ class agreement(LDAPObject):
         },
         "System: Add FAS Agreement": {
             "ipapermright": {"add"},
-            "default_privileges": {"Agreement Administrators"},
+            "default_privileges": {"FAS Agreement Administrators"},
         },
         "System: Delete FAS Agreement": {
             "ipapermright": {"delete"},
-            "default_privileges": {"Agreement Administrators"},
+            "default_privileges": {"FAS Agreement Administrators"},
         },
         "System: Manage FAS Agreement user membership": {
             "ipapermright": {"write"},
             "ipapermdefaultattr": {"memberUser"},
-            "default_privileges": {"Agreement Administrators"},
+            "default_privileges": {"FAS Agreement Administrators"},
         },
         "System: Modify FAS Agreement": {
             "ipapermright": {"write"},
@@ -94,7 +93,7 @@ class agreement(LDAPObject):
                 "ipaenabledflag",
                 "member",
             },
-            "default_privileges": {"Agreement Administrators"},
+            "default_privileges": {"FAS Agreement Administrators"},
         },
     }
 
@@ -116,10 +115,12 @@ class agreement(LDAPObject):
 
 
 @register()
-class agreement_add(LDAPCreate):
+class fasagreement_add(LDAPCreate):
     __doc__ = _("Create a new User Agreement.")
 
-    has_output_params = LDAPCreate.has_output_params + agreement_output_params
+    has_output_params = (
+        LDAPCreate.has_output_params + fasagreement_output_params
+    )
     msg_summary = _('Added User Agreement "%(value)s"')
 
     def pre_callback(
@@ -130,27 +131,31 @@ class agreement_add(LDAPCreate):
 
 
 @register()
-class agreement_del(LDAPDelete):
+class fasagreement_del(LDAPDelete):
     __doc__ = _("Delete a User Agreement.")
 
     msg_summary = _('Deleted User Agreement "%(value)s"')
 
 
 @register()
-class agreement_mod(LDAPUpdate):
+class fasagreement_mod(LDAPUpdate):
     __doc__ = _("Modify a User Agreement.")
 
-    has_output_params = LDAPUpdate.has_output_params + agreement_output_params
+    has_output_params = (
+        LDAPUpdate.has_output_params + fasagreement_output_params
+    )
     msg_summary = _('Modified User Agreement "%(value)s"')
 
 
 @register()
-class agreement_find(LDAPSearch):
+class fasagreement_find(LDAPSearch):
     __doc__ = _("Search for User Agreements.")
 
     member_attributes = ["member", "memberuser"]
 
-    has_output_params = LDAPSearch.has_output_params + agreement_output_params
+    has_output_params = (
+        LDAPSearch.has_output_params + fasagreement_output_params
+    )
     msg_summary = ngettext(
         "%(count)d User Agreement matched",
         "%(count)d User Agreements matched",
@@ -159,16 +164,16 @@ class agreement_find(LDAPSearch):
 
 
 @register()
-class agreement_show(LDAPRetrieve):
+class fasagreement_show(LDAPRetrieve):
     __doc__ = _("Display the properties of a User Agreeement.")
 
     has_output_params = (
-        LDAPRetrieve.has_output_params + agreement_output_params
+        LDAPRetrieve.has_output_params + fasagreement_output_params
     )
 
 
 @register()
-class agreement_add_user(LDAPAddMember):
+class fasagreement_add_user(LDAPAddMember):
     __doc__ = _("Add users to a User Agreement")
 
     member_attributes = ["memberuser"]
@@ -176,7 +181,7 @@ class agreement_add_user(LDAPAddMember):
 
 
 @register()
-class agreement_remove_user(LDAPRemoveMember):
+class fasagreement_remove_user(LDAPRemoveMember):
     __doc__ = _("Remove users from a User Agreement")
 
     member_attributes = ["memberuser"]
@@ -184,7 +189,7 @@ class agreement_remove_user(LDAPRemoveMember):
 
 
 @register()
-class agreement_add_group(LDAPAddMember):
+class fasagreement_add_group(LDAPAddMember):
     __doc__ = _("Add group to a User Agreement")
 
     member_attributes = ["member"]
@@ -192,11 +197,15 @@ class agreement_add_group(LDAPAddMember):
 
 
 @register()
-class agreement_remove_group(LDAPRemoveMember):
+class fasagreement_remove_group(LDAPRemoveMember):
     __doc__ = _("Remove group from a User Agreement")
 
     member_attributes = ["member"]
     member_count_out = (_("%i group removed."), _("%i groups removed."))
 
 
-i18n_messages.messages["agreement"] = {"agreements": _("User Agreement")}
+i18n_messages.messages["fasagreement"] = {
+    "fasagreements": _("User Agreement"),
+    "add": _("Add User Agrement"),
+    "remove": _("Remove User Agrement"),
+}

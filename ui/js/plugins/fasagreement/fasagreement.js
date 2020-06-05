@@ -12,11 +12,11 @@ define([
     ],
     function (phases, IPA, menu, reg) {
 
-        var exp = IPA.agreement = {};
+        var exp = IPA.fasagreement = {};
 
         var make_spec = function () {
             var spec = {
-                name: 'agreement',
+                name: 'fasagreement',
                 facets: [
                     {
                         $type: 'search',
@@ -53,7 +53,7 @@ define([
                 ],
                 standard_association_facets: true,
                 adder_dialog: {
-                    title: 'Add agreement',
+                    title: '@i18n:fasagreement.add',
                     fields: [
                         'cn',
                         {
@@ -63,7 +63,7 @@ define([
                     ]
                 },
                 deleter_dialog: {
-                    title: 'Remove Agreement'
+                    title: '@i18n:fasagreement.remove'
                 }
             };
             return spec;
@@ -71,18 +71,18 @@ define([
 
         exp.entity_spec = make_spec();
 
-        exp.agreement_menu_spec = {
-            entity: 'agreement',
-            label: '@i18n:agreement.agreements'
+        exp.fasagreement_menu_spec = {
+            entity: 'fasagreement',
+            label: '@i18n:fasagreement.fasagreements'
         };
 
         exp.register = function () {
             var e = reg.entity;
-            e.register({type: 'agreement', spec: exp.entity_spec});
+            e.register({type: 'fasagreement', spec: exp.entity_spec});
         };
 
         exp.add_menu_item = function () {
-            menu.add_item(exp.agreement_menu_spec, 'identity');
+            menu.add_item(exp.fasagreement_menu_spec, 'identity');
         };
 
         phases.on('registration', exp.register);

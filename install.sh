@@ -17,8 +17,9 @@ mkdir -p -m 755 /usr/share/ipa/ui/js/plugins/userfas
 cp ui/js/plugins/userfas/userfas.js /usr/share/ipa/ui/js/plugins/userfas/
 mkdir -p -m 755 /usr/share/ipa/ui/js/plugins/groupfas
 cp ui/js/plugins/groupfas/groupfas.js /usr/share/ipa/ui/js/plugins/groupfas/
-mkdir -p -m 755 /usr/share/ipa/ui/js/plugins/agreement
-cp ui/js/plugins/agreement/agreement.js /usr/share/ipa/ui/js/plugins/agreement/
+mkdir -p -m 755 /usr/share/ipa/ui/js/plugins/fasagreement
+cp ui/js/plugins/fasagreement/fasagreement.js \
+    /usr/share/ipa/ui/js/plugins/fasagreement/
 
 cp ipaserver/plugins/*.py ${SITE_PACKAGES}/ipaserver/plugins/
 python3 -m compileall ${SITE_PACKAGES}/ipaserver/plugins/
