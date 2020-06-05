@@ -1,12 +1,11 @@
 BLACK=black -l78
-JSL=jsl -nologo -nosummary
+ESLINT=eslint
 
 all: lint
 
 lint:
 	$(BLACK) --check .
-	$(JSL) -process ui/js/plugins/userfas/userfas.js
-	$(JSL) -process ui/js/plugins/groupfas/groupfas.js
+	$(ESLINT) ui/js/plugins/
 
 black:
 	$(BLACK) .
