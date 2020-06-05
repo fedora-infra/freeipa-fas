@@ -7,7 +7,9 @@
 Member users are stored in "memberUser" attribute while related groups are
 stored in "member" attribute. FreeIPA does not have a "memberGroup" attribute.
 """
-from ipalib import Bool, Str, StrEnum
+from ipalib import Bool, Str
+from ipalib import errors
+from ipalib import output
 from ipalib.plugable import Registry
 from ipaserver.plugins.baseldap import (
     LDAPObject,
@@ -15,10 +17,10 @@ from ipaserver.plugins.baseldap import (
     LDAPCreate,
     LDAPDelete,
     LDAPUpdate,
+    LDAPQuery,
     LDAPRetrieve,
     LDAPAddMember,
     LDAPRemoveMember,
-    global_output_params,
     pkey_to_value,
 )
 from ipalib import _, ngettext
@@ -136,6 +138,23 @@ class fasagreement_del(LDAPDelete):
 
     msg_summary = _('Deleted User Agreement "%(value)s"')
 
+    def pre_callback(self, ldap, dn, *keys, **options):
+        assert isinstance(dn, DN)
+        try:
+            entry = ldap.get_entry(dn, attrs_list=["member"])
+        except errors.NotFound:
+            raise self.obj.handle_not_found(*keys)
+
+        members = entry.get("member", [])
+        if members:
+            raise errors.ACIError(
+                info=_(
+                    "Not allowed to delete User Agreement with linked groups"
+                )
+            )
+
+        return dn
+
 
 @register()
 class fasagreement_mod(LDAPUpdate):
@@ -170,6 +189,45 @@ class fasagreement_show(LDAPRetrieve):
     has_output_params = (
         LDAPRetrieve.has_output_params + fasagreement_output_params
     )
+
+
+class _fasagreement_enabledflag(LDAPQuery):
+    has_output = output.standard_value
+    ipaenabledflag = None
+
+    def execute(self, cn, **options):
+        ldap = self.obj.backend
+
+        dn = self.obj.get_dn(cn)
+        try:
+            entry_attrs = ldap.get_entry(dn, ["ipaenabledflag"])
+        except errors.NotFound:
+            raise self.obj.handle_not_found(cn)
+
+        entry_attrs["ipaenabledflag"] = [self.ipaenabledflag]
+
+        try:
+            ldap.update_entry(entry_attrs)
+        except errors.EmptyModlist:
+            pass
+
+        return dict(result=True, value=pkey_to_value(cn, options),)
+
+
+@register()
+class fasagreement_enable(_fasagreement_enabledflag):
+    __doc__ = _("Enable a User Agreement")
+
+    msg_summary = _('Enabled User Agreement "%(value)s"')
+    ipaenabledflag = "TRUE"
+
+
+@register()
+class fasagreement_disable(_fasagreement_enabledflag):
+    __doc__ = _("Disable a User Agreement")
+
+    msg_summary = _('Disabled User Agreement "%(value)s"')
+    ipaenabledflag = "FALSE"
 
 
 @register()
