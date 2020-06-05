@@ -17,11 +17,35 @@ define([
         var make_spec = function () {
             var spec = {
                 name: 'fasagreement',
+                facet_groups: ['member', 'memberuser', 'settings'],
                 facets: [
                     {
                         $type: 'search',
+                        row_enabled_attribute: 'ipaenabledflag',
                         columns: [
-                            "cn"
+                            'cn',
+                            {
+                                name: 'ipaenabledflag',
+                                label: '@i18n:status.label',
+                                formatter: 'boolean_status'
+                            },
+                            'description'
+                        ],
+                        actions: [
+                            'batch_disable',
+                            'batch_enable'
+                        ],
+                        control_buttons: [
+                            {
+                                name: 'disable',
+                                label: '@i18n:buttons.disable',
+                                icon: 'fa-minus'
+                            },
+                            {
+                                name: 'enable',
+                                label: '@i18n:buttons.enable',
+                                icon: 'fa-check'
+                            }
                         ]
                     },
                     {
@@ -40,16 +64,47 @@ define([
                         ],
                         actions: [
                             'select',
+                            'enable',
+                            'disable',
                             'delete'
                         ],
-                        header_actions: ['delete'],
+                        header_actions: ['enable', 'disable', 'delete'],
                         state: {
                             evaluators: [
-                                IPA.object_class_evaluator
+                                {
+                                    $factory: IPA.enable_state_evaluator,
+                                    field: 'ipaenabledflag'
+                                }
+                            ],
+                            summary_conditions: [
+                                IPA.enabled_summary_cond,
+                                IPA.disabled_summary_cond
                             ]
                         }
+                    },
+                    {
+                        $type: 'association',
+                        name: 'member_group',
+                        add_method: 'add_group',
+                        remove_method: 'remove_group'
+                    },
+                    {
+                        $type: 'association',
+                        name: 'memberuser_user',
+                        columns: [
+                            'uid',
+                            'uidnumber',
+                            'mail'
+                        ],
+                        adder_columns: [
+                            {
+                                name: 'uid',
+                                primary_key: true
+                            }
+                        ],
+                        add_method: 'add_user',
+                        remove_method: 'remove_user'
                     }
-                    // TODO: memberuser_user facet
                 ],
                 standard_association_facets: true,
                 adder_dialog: {
@@ -82,7 +137,10 @@ define([
         };
 
         exp.add_menu_item = function () {
-            menu.add_item(exp.fasagreement_menu_spec, 'identity');
+            var identity_item = menu.query({name: 'identity'});
+            if (identity_item.length > 0) {
+                menu.add_item(exp.fasagreement_menu_spec, 'identity');
+            }
         };
 
         phases.on('registration', exp.register);
