@@ -13,5 +13,6 @@
         "ecmaVersion": 11
     },
     "rules": {
+        "comma-dangle": ["error", "never"]
     }
 }
