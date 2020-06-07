@@ -54,6 +54,27 @@ Groups with the *fasGroup* object class have the following optional attributes:
 * *fasIRCChannel*: string
 * *fasMailingList*: string
 
+## Group / User Agreement check
+
+The ``group_add_member`` commands checks user agreements. Users must
+consent to all linked agreements before they are permitted to join a
+group:
+
+```
+$ ipa group-add-member myfasgroup --users=fasuser2
+  Group name: myfasgroup
+  GID: 1632000010
+  Member users: fasgroupadmin, fasuser1
+  Failed members:
+    member user: fasuser2: missing user agreements: myagreement
+    member group:
+    member service:
+-------------------------
+Number of members added 0
+-------------------------
+
+```
+
 ## ACIs
 
 * ``Read FAS user attributes``

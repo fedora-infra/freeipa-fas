@@ -11,6 +11,7 @@ from ipalib import _
 from ipalib.parameters import Flag
 from ipaserver.plugins.group import group
 from ipaserver.plugins.group import group_add
+from ipaserver.plugins.group import group_add_member
 from ipaserver.plugins.group import group_find
 from ipaserver.plugins.group import group_mod
 from ipaserver.plugins.group import group_remove_member
@@ -210,6 +211,60 @@ def group_remove_member_fas_postcb(
 
 
 group_remove_member.register_post_callback(group_remove_member_fas_postcb)
+
+
+def group_add_member_fas_precb(
+    self, ldap, dn, found, not_found, *keys, **options
+):
+    """Enforce user agreements when adding new members
+
+    users must consent to all agreements that are linked to this group.
+
+    Limitations: The check does not work for indirect membership and does
+    not limit existing users when a new agreement is linked to a group.
+    """
+    found_users = found["member"]["user"]
+    if not found_users:
+        # no users
+        return dn
+
+    # found some users, now check agreement
+    group_agreements = self.api.Command.fasagreement_find(
+        group=keys[0], pkey_only=True
+    )["result"]
+    if not group_agreements:
+        # group has no agreements
+        return dn
+
+    # group has agreements
+    group_agreements_cns = {a["cn"][0] for a in group_agreements}
+    # rebuild found users and update not_found users
+    # found users are a list of DNs
+    # not found are a list of tuples (pkey, error message)
+    found_users = found_users[:]
+    new_found_users = found["member"]["user"] = []
+    not_found_users = not_found["member"]["user"]
+
+    for user_dn in found_users:
+        user_uid = user_dn["uid"]
+        # user agreements for group and user
+        user_agreements = self.api.Command.fasagreement_find(
+            group=keys[0], user=user_uid, pkey_only=True
+        )["result"]
+        user_agreements_cns = {a["cn"][0] for a in user_agreements}
+        diff = group_agreements_cns.difference(user_agreements_cns)
+        if diff:
+            msg = _("missing user agreement: {}").format(
+                ", ".join(sorted(diff))
+            )
+            not_found_users.append((user_uid, msg))
+        else:
+            new_found_users.append(user_dn)
+
+    return dn
+
+
+group_add_member.register_pre_callback(group_add_member_fas_precb)
 
 
 def group_show_fas_postcb(self, ldap, dn, entry_attrs, *keys, **options):
