@@ -33,7 +33,10 @@ __doc__ = _(
 )
 
 
-fasagreement_output_params = ()
+fasagreement_output_params = (
+    Str("memberuser_user", label="Agreement users",),
+    Str("memberusers", label=_("Failed members"),),
+)
 
 register = Registry()
 
@@ -245,6 +248,44 @@ class fasagreement_remove_user(LDAPRemoveMember):
 
     member_attributes = ["memberuser"]
     member_count_out = (_("%i user removed."), _("%i users removed."))
+
+    def pre_callback(self, ldap, dn, found, not_found, *keys, **options):
+        """Remove users from linked groups
+        """
+        user_uids = [
+            user_dn["uid"] for user_dn in found["memberuser"]["user"]
+        ]
+        if not user_uids:
+            # no users found
+            return dn
+        # check that current user has write access to modify member user
+        # attribute of the agreement.
+        # Note: This will fail the entire operation, not just individual
+        # removals.
+        if not ldap.can_write(dn, "memberuser"):
+            raise errors.ACIError(
+                info=(
+                    "Insufficient 'write' privilege to the 'memberuser' "
+                    "attribute of entry '{}'."
+                ).format(dn)
+            )
+        # get group primary keys for agreement without loading all users
+        group_obj = self.api.Object.group
+        group_container_dn = DN(group_obj.container_dn, self.api.env.basedn)
+        try:
+            entry = ldap.get_entry(dn, ["member"])
+        except errors.NotFound:
+            raise self.obj.handle_not_found(*keys)
+        group_names = [
+            group_obj.get_primary_key_from_dn(m)
+            for m in entry["member"]
+            if m.endswith(group_container_dn)
+        ]
+        # remove users group groups
+        for group_name in group_names:
+            self.api.Command.group_remove_member(group_name, user=user_uids)
+
+        return dn
 
 
 @register()
