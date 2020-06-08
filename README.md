@@ -56,24 +56,11 @@ Groups with the *fasGroup* object class have the following optional attributes:
 
 ## Group / User Agreement check
 
-The ``group_add_member`` commands checks user agreements. Users must
+The ``group_add_member`` command checks user agreements. Users must
 consent to all linked agreements before they are permitted to join a
-group:
+group. The ``fasagreement-remove-user`` command removes users from
+groups.
 
-```
-$ ipa group-add-member myfasgroup --users=fasuser2
-  Group name: myfasgroup
-  GID: 1632000010
-  Member users: fasgroupadmin, fasuser1
-  Failed members:
-    member user: fasuser2: missing user agreements: myagreement
-    member group:
-    member service:
--------------------------
-Number of members added 0
--------------------------
-
-```
 
 ## ACIs
 
@@ -214,36 +201,43 @@ $ ipa fasagreement-add-group myagreement --groups=myfasgroup
 -------------------------
 Number of members added 1
 -------------------------
+$ ipa group-add-member myfasgroup --user=fasuser1
+  Group name: myfasgroup
+  GID: 1632000010
+  Member users: fasgroupadmin, fasuser1
+  Failed members:
+    member user: fasuser2: missing user agreements: myagreement
+    member group:
+    member service:
+-------------------------
+Number of members added 0
+-------------------------
 ```
 
-Join group as normal user
+Consent to agreement as normal user
 
 ```
 $ kinit fasuser1
 Password for fasuser1@FAS.EXAMPLE:
-$ ipa fasagreement-add-user myagreement --users=fasuser1
+$ ipa fasagreement-add-user myagreement --user=fasuser1
   Agreement name: myagreement
   Agreement Description: Agreement for myfasgroup
   Member groups: myfasgroup
 -------------------------
 Number of members added 1
 -------------------------
-$ ipa fasagreement-show myagreement --all
-  dn: cn=myagreement,cn=fasagreements,dc=fas,dc=example
+$ ipa fasagreement-show myagreement
   Agreement name: myagreement
   Agreement Description: Agreement for myfasgroup
-  Enabled: TRUE
   Member groups: myfasgroup
-  ipauniqueid: 8e121c84-a712-11ea-b3f9-525400856bde
-  memberuser_user: fasuser1
-  objectclass: ipaassociation, fasagreement
+  Agreement users: fasuser1
 ```
 
 Normal users can neither retract an agreement nor agree on behalf of
 another user:
 
 ```
-$ ipa fasagreement-add-user myagreement --users=fasuser2
+$ ipa fasagreement-add-user myagreement --user=fasuser2
   Agreement name: myagreement
   Agreement Description: Agreement for myfasgroup
   Failed users/groups:
@@ -251,7 +245,7 @@ $ ipa fasagreement-add-user myagreement --users=fasuser2
 -------------------------
 Number of members added 0
 -------------------------
-$ ipa fasagreement-remove-user myagreement --users=fasuser1
+$ ipa fasagreement-remove-user myagreement --user=fasuser1
   Agreement name: myagreement
   Agreement Description: Agreement for myfasgroup
   Member groups: myfasgroup
@@ -280,6 +274,25 @@ $ ipa fasagreement-del myagreement
 ------------------------------------
 Deleted User Agreement "myagreement"
 ------------------------------------
+```
+
+Admins and user agreement managers can remove users from an agreement.
+The operation also removes users all linked groups
+
+```
+$ ipa group-show myfasgroup
+  Group name: myfasgroup
+  GID: 1632000010
+  Member users: fasuser1
+$ ipa fasagreement-remove-user myagreement --user=fasuser1
+  Agreement name: myagreement
+  Member groups: myfasgroup
+---------------------------
+Number of members removed 1
+---------------------------
+$ ipa group-show myfasgroup
+  Group name: myfasgroup
+  GID: 1632000010
 ```
 
 
