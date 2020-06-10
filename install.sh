@@ -10,8 +10,10 @@ else
 fi
 
 cp schema.d/89-fasschema.ldif /usr/share/ipa/schema.d/
+rm -f /usr/share/ipa/schema.d/99-fasschema.ldif
 
 cp updates/89-fas.update /usr/share/ipa/updates/
+rm -f /usr/share/ipa/updates/99-fas.update
 
 mkdir -p -m 755 /usr/share/ipa/ui/js/plugins/userfas
 cp ui/js/plugins/userfas/userfas.js /usr/share/ipa/ui/js/plugins/userfas/
