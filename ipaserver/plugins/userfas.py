@@ -10,11 +10,19 @@ from ipalib import errors
 
 from ipaserver.plugins.user import user
 from ipaserver.plugins.user import user_add
+from ipaserver.plugins.user import user_find
 from ipaserver.plugins.user import user_mod
+from ipaserver.plugins.user import user_show
 
 from .baseruserfas import takes_params, fas_user_attributes
+from .fasagreement import fasagreement_member_output_params
 
 user.takes_params += takes_params
+
+# show FAS Agreement relationship
+user_find.has_output_params += fasagreement_member_output_params
+user_mod.has_output_params += fasagreement_member_output_params
+user_show.has_output_params += fasagreement_member_output_params
 
 user.managed_permissions.update(
     {
