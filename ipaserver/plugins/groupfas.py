@@ -18,6 +18,7 @@ from ipaserver.plugins.group import group_remove_member
 from ipaserver.plugins.group import group_show
 from ipaserver.plugins.internal import i18n_messages
 
+from .fasagreement import fasagreement_member_output_params
 from .fasutils import Email, IRCChannel, URL
 
 if "fasgroup" not in group.possible_objectclasses:
@@ -32,6 +33,12 @@ group.default_attributes.extend(group_fas_attributes)
 # always fetch objectclass so group_show can show fasgroup property
 if "objectclass" not in group.default_attributes:
     group.default_attributes.append("objectclass")
+
+# show FAS Agreement relationship
+group.attribute_members["memberof"].append("fasagreement")
+group_find.has_output_params += fasagreement_member_output_params
+group_mod.has_output_params += fasagreement_member_output_params
+group_show.has_output_params += fasagreement_member_output_params
 
 group.managed_permissions.update(
     {
@@ -275,6 +282,7 @@ def group_show_fas_postcb(self, ldap, dn, entry_attrs, *keys, **options):
 
 
 group_show.register_post_callback(group_show_fas_postcb)
+
 
 i18n_messages.messages["groupfas"] = {
     "section": _("Fedora Account System"),
