@@ -34,6 +34,8 @@ fas_user_attributes = [
 ]
 baseuser.default_attributes.extend(fas_user_attributes)
 
+baseuser.attribute_members["memberof"].append("fasagreement")
+
 takes_params = (
     Str(
         "fastimezone?",
