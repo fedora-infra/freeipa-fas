@@ -34,8 +34,12 @@ __doc__ = _(
 
 
 fasagreement_output_params = (
-    Str("memberuser_user", label="Agreement users",),
-    Str("memberusers", label=_("Failed members"),),
+    Str("memberuser_user?", label="Agreement users",),
+    Str("memberusers?", label=_("Failed members"),),
+)
+
+fasagreement_member_output_params = (
+    Str("memberof_fasagreement", label="Member of user agreement",),
 )
 
 register = Registry()

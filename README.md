@@ -284,6 +284,7 @@ $ ipa group-show myfasgroup
   Group name: myfasgroup
   GID: 1632000010
   Member users: fasuser1
+  Member of user agreement: myagreement
 $ ipa fasagreement-remove-user myagreement --user=fasuser1
   Agreement name: myagreement
   Member groups: myfasgroup
