@@ -54,6 +54,7 @@ class fasagreement(LDAPObject):
     default_attributes = [
         "cn",
         "description",
+        "ipaenabledflag",
         "member",
         "memberuser",
     ]
