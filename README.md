@@ -72,6 +72,7 @@ groups.
 ## User settings
 
 * OTP set as default authentication method.
+* User search uses login, given name, surname, mail, and IRC nick.
 
 ## Indexes
 
