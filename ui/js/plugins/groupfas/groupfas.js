@@ -42,12 +42,25 @@ define([
                     flags: ['w_if_no_aci']
                 }]
             };
+            var fasagreement = {
+                $type: 'association',
+                name: 'memberof_fasagreement',
+                associator: IPA.serial_associator,
+                add_method: 'add_group',
+                add_title: '@i18n:fasagreement.add',
+                remove_method: 'remove_group',
+                remove_title: '@i18n:fasagreement.remove'
+            };
+
             var facet = get_item(IPA.group.entity_spec.facets, '$type', 'details');
             // Add the details sections
             facet.sections.push(section);
             // Add the make_fasgroup action
             facet.actions.push('make_fasgroup');
             facet.header_actions.splice(-1, 0, 'make_fasgroup');
+
+            // Add user agreement add/remove facet
+            IPA.group.entity_spec.facets.push(fasagreement);
 
             /*
              * Now the add dialog

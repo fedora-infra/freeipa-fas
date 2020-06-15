@@ -66,9 +66,21 @@ define([
                     flags: ['w_if_no_aci']
                 }]
             };
+            var fasagreement = {
+                $type: 'association',
+                $pre_ops: [IPA.user.association_facet_ss_pre_op],
+                name: 'memberof_fasagreement',
+                associator: IPA.serial_associator,
+                add_method: 'add_user',
+                add_title: '@i18n:fasagreement.add',
+                remove_method: 'remove_user',
+                remove_title: '@i18n:fasagreement.remove'
+            };
             [IPA.user.entity_spec, IPA.stageuser.stageuser_spec].forEach(function(spec) {
               var facet = get_item(spec.facets, '$type', 'details');
               facet.sections.push(section);
+
+              spec.facets.push(fasagreement);
             });
             return true;
         };
