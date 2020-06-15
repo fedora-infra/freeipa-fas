@@ -11,6 +11,9 @@
 # Add otp as the default auth mechanism
 dn: cn=ipaConfig,cn=etc,$SUFFIX
 only:ipaUserAuthType: otp
+add:ipaUserObjectClasses: fasuser
+only:ipaUserSearchFields: uid,givenname,sn,mail,fasIRCNick
+
 
 # ACI to expose FAS user attributes
 dn: cn=users,cn=accounts,$SUFFIX
