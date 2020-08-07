@@ -1,7 +1,5 @@
 # FreeIPA plugin for Fedora Account System
 
-**PROOF OF CONCEPT**
-
 The *freeip-fas* plugin provides schema extension of FreeIPA users for
 the Fedora Account System. The plugin must be installed on all FreeIPA
 servers, preferable before the server/replica is installed.
