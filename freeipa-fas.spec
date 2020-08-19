@@ -7,15 +7,15 @@ Name:           ipa-%{plugin_name}
 %else
 Name:           freeipa-%{plugin_name}
 %endif
-Version:        0.0.2
+Version:        0.0.3
 Release:        1%{?dist}
 Summary:        Fedora Account System extension for FreeIPA
 
 BuildArch:      noarch
 
-License:        GPL
+License:        GPLv3+
 URL:            https://github.com/fedora-infra/freeipa-fas
-Source0:        https://github.com/fedora-infra/freeipa-%{plugin_name}/archive/%{version}.tar.gz
+Source0:        https://github.com/fedora-infra/freeipa-fas/archive/%{version}/freeipa-fas-%{version}.tar.gz
 
 BuildRequires: python3-devel
 BuildRequires: systemd
@@ -83,7 +83,7 @@ fi
 
 %files
 %license COPYING
-%doc README.md
+%doc README.md CONTRIBUTORS.txt
 %{python3_sitelib}/ipaserver/plugins/*.py
 %{python3_sitelib}/ipaserver/plugins/__pycache__/*.pyc
 %_datadir/ipa/schema.d/*.ldif
@@ -91,6 +91,9 @@ fi
 %_datadir/ipa/ui/js/plugins/*
 
 %changelog
+* Mon Aug 17 2020 Aurelien Bompard <abompard@fedoraproject.org> - 0.0.3-1
+- Packaging update
+
 * Wed Feb 12 2020 Christian Heimes <cheimes@redhat.com> - 0.0.2-1
 - Make new fields readable
 - Make mail attribute writeable
