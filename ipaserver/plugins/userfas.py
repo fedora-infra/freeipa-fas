@@ -7,7 +7,7 @@
 """
 from ipalib import _
 from ipalib import errors
-
+from ipalib.parameters import Flag
 from ipaserver.plugins.user import user
 from ipaserver.plugins.user import user_add
 from ipaserver.plugins.user import user_find
@@ -44,6 +44,16 @@ user.managed_permissions.update(
         #     "ipapermdefaultattr": fas_user_attributes.copy(),
         # },
     },
+)
+
+
+user_find.takes_options += (
+    Flag(
+        "fasuser",
+        cli_name="fasuser",
+        doc=_("Search for FAS users"),
+        default=False,
+    ),
 )
 
 
@@ -85,3 +95,21 @@ def user_mod_fas_precb(self, ldap, dn, entry, attrs_list, *keys, **options):
 
 
 user_mod.register_pre_callback(user_mod_fas_precb)
+
+
+def user_find_fas_precb(
+    self, ldap, filter, attrs_list, base_dn, scope, criteria=None, **options
+):
+    """Search filter for FAS user
+    """
+    if options.get("fasuser", False):
+        fasfilter = ldap.make_filter(
+            {"objectclass": ["fasuser"]}, rules=ldap.MATCH_ALL
+        )
+        filter = ldap.combine_filters(
+            [filter, fasfilter], rules=ldap.MATCH_ALL
+        )
+    return filter, base_dn, scope
+
+
+user_find.register_pre_callback(user_find_fas_precb)
