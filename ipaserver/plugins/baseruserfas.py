@@ -8,7 +8,7 @@
 Common user extensions
 """
 from ipalib import _
-from ipalib.parameters import DateTime, Str
+from ipalib.parameters import DateTime, Str, Bool
 
 from ipaserver.plugins.baseuser import baseuser
 from ipaserver.plugins.internal import i18n_messages
@@ -31,6 +31,7 @@ fas_user_attributes = [
     "fasgithubusername",
     "fasgitlabusername",
     "faswebsiteurl",
+    "fasisprivate",
 ]
 baseuser.default_attributes.extend(fas_user_attributes)
 
@@ -98,6 +99,12 @@ takes_params = (
         label=_("Website / Blog URL"),
         maxlength=255,
         normalizer=lambda value: value.strip(),
+    ),
+    Bool(
+        "fasisprivate?",
+        cli_name="fasisprivate",
+        label=_("Hide personal data"),
+        doc=_("Hide personal data from other users"),
     ),
 )
 
