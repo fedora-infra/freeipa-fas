@@ -24,13 +24,14 @@ User object is extended by a new *fasUser* object class.
 * *fasTimeZone*: string, writable by self
 * *fasLocale*: string, writable by self
 * *fasIRCNick*: multi-valued string, writable by self, indexed
-* *fasGPGKeyId*: multi-valued string, writable by self, indexec
+* *fasGPGKeyId*: multi-valued string, writable by self, indexed
 * *fasCreationTime*: timestamp, writable by admin
 * *fasStatusNote*: string, writable by admin
 * *fasRHBZEmail*: string, writable by self
 * *fasGitHubUsername*: string, writable by self
 * *fasGitLabUsername*: string, writable by self
 * *fasWebsiteURL*: string, writable by self
+* *fasIsPrivate*: boolean, writable by self
 
 This also applies to stage users.
 

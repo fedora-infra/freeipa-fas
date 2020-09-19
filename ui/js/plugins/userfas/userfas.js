@@ -58,6 +58,10 @@ define([
                     name: 'fasgpgkeyid',
                     flags: ['w_if_no_aci']
                 }, {
+                    name: 'fasisprivate',
+                    $type: 'checkbox',
+                    flags: ['w_if_no_aci']
+                }, {
                     $type: 'datetime',
                     name: 'fascreationtime',
                     read_only: true
