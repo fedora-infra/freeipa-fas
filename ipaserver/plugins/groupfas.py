@@ -58,7 +58,12 @@ group.takes_params += (
         label=_("FAS group"),
         flags={"virtual_attribute", "no_create", "no_update", "no_search"},
     ),
-    URL("fasurl?", cli_name="fasurl", label=_("Group URL"), maxlength=255,),
+    URL(
+        "fasurl?",
+        cli_name="fasurl",
+        label=_("Group URL"),
+        maxlength=255,
+    ),
     Email(
         "fasmailinglist?",
         cli_name="fasmailinglist",
@@ -102,8 +107,7 @@ group_mod.takes_options += (
 
 
 def check_fasgroup_attr(entry):
-    """Common function to verify fasgroup attributes
-    """
+    """Common function to verify fasgroup attributes"""
     pass
 
 
@@ -129,8 +133,7 @@ def _has_fasgroup_options(options):
 
 
 def group_add_fas_precb(self, ldap, dn, entry, attrs_list, *keys, **options):
-    """Add fasgroup object class and related attributes.
-    """
+    """Add fasgroup object class and related attributes."""
     if _has_fasgroup_options(options):
         if not self.obj.has_objectclass(entry["objectclass"], "fasgroup"):
             entry["objectclass"].append("fasgroup")
@@ -143,8 +146,7 @@ group_add.register_pre_callback(group_add_fas_precb)
 
 
 def group_add_fas_postcb(self, ldap, dn, entry_attrs, *keys, **options):
-    """Include fasgroup membership info
-    """
+    """Include fasgroup membership info"""
     self.obj.get_fasgroup_attribute(entry_attrs, options)
     return dn
 
@@ -155,8 +157,7 @@ group_add.register_post_callback(group_add_fas_postcb)
 def group_find_fas_precb(
     self, ldap, filter, attrs_list, base_dn, scope, criteria=None, **options
 ):
-    """Search filter for FAS group
-    """
+    """Search filter for FAS group"""
     if options.get("fasgroup", False):
         fasfilter = ldap.make_filter(
             {"objectclass": ["fasgroup"]}, rules=ldap.MATCH_ALL
@@ -171,8 +172,7 @@ group_find.register_pre_callback(group_find_fas_precb)
 
 
 def group_find_fas_postcb(self, ldap, entries, truncated, *args, **options):
-    """Search filter for FAS group
-    """
+    """Search filter for FAS group"""
     if not options.get("raw", False):
         for entry in entries:
             self.obj.get_fasgroup_attribute(entry, options)
@@ -183,8 +183,7 @@ group_find.register_post_callback(group_find_fas_postcb)
 
 
 def group_mod_fas_precb(self, ldap, dn, entry, *keys, **options):
-    """Add fasgroup object class and related attributes.
-    """
+    """Add fasgroup object class and related attributes."""
     if _has_fasgroup_options(options):
         # add fasgroup object class
         if "objectclass" not in entry:
@@ -203,8 +202,7 @@ group_mod.register_pre_callback(group_mod_fas_precb)
 def group_remove_member_fas_postcb(
     self, ldap, completed, failed, dn, entry_attrs, *keys, **options
 ):
-    """Also remove user from member manager attribute
-    """
+    """Also remove user from member manager attribute"""
     if "user" in options:
         result = self.api.Command.group_remove_member_manager(
             keys[0], user=options["user"]
@@ -275,8 +273,7 @@ group_add_member.register_pre_callback(group_add_member_fas_precb)
 
 
 def group_show_fas_postcb(self, ldap, dn, entry_attrs, *keys, **options):
-    """Show fasgroup membership info
-    """
+    """Show fasgroup membership info"""
     self.obj.get_fasgroup_attribute(entry_attrs, options)
     return dn
 

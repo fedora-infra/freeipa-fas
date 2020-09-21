@@ -58,8 +58,7 @@ user_find.takes_options += (
 
 
 def check_fasuser_attr(entry):
-    """Common function to verify fasuser attributes
-    """
+    """Common function to verify fasuser attributes"""
     fasrhbzemail = entry.get("fasrhbzemail")
     if fasrhbzemail is not None and "@" not in fasrhbzemail:
         msg = _("invalid e-mail format: %(email)s")
@@ -100,8 +99,7 @@ user_mod.register_pre_callback(user_mod_fas_precb)
 def user_find_fas_precb(
     self, ldap, filter, attrs_list, base_dn, scope, criteria=None, **options
 ):
-    """Search filter for FAS user
-    """
+    """Search filter for FAS user"""
     if options.get("fasuser", False):
         fasfilter = ldap.make_filter(
             {"objectclass": ["fasuser"]}, rules=ldap.MATCH_ALL
