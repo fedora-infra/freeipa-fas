@@ -88,8 +88,7 @@ def _check_conflict(self, ldap, dn, entry, operation):
 def stageuser_add_fas_precb(
     self, ldap, dn, entry, attrs_list, *keys, **options
 ):
-    """Verify that uid, mail, and krb principal are not in use
-    """
+    """Verify that uid, mail, and krb principal are not in use"""
     _check_conflict(self, ldap, dn, entry, operation="add")
     return dn
 
@@ -100,8 +99,7 @@ stageuser_add.register_pre_callback(stageuser_add_fas_precb)
 def stageuser_mod_fas_precb(
     self, ldap, dn, entry, attrs_list, *keys, **options
 ):
-    """Verify that uid, mail, and krb principal are not in use
-    """
+    """Verify that uid, mail, and krb principal are not in use"""
     print(entry)
     _check_conflict(self, ldap, dn, entry, operation="mod")
     return dn

@@ -34,12 +34,21 @@ __doc__ = _(
 
 
 fasagreement_output_params = (
-    Str("memberuser_user?", label="Agreement users",),
-    Str("memberusers?", label=_("Failed members"),),
+    Str(
+        "memberuser_user?",
+        label="Agreement users",
+    ),
+    Str(
+        "memberusers?",
+        label=_("Failed members"),
+    ),
 )
 
 fasagreement_member_output_params = (
-    Str("memberof_fasagreement", label="Member of user agreement",),
+    Str(
+        "memberof_fasagreement",
+        label="Member of user agreement",
+    ),
 )
 
 register = Registry()
@@ -47,8 +56,7 @@ register = Registry()
 
 @register()
 class fasagreement(LDAPObject):
-    """User Agreement object for FAS
-    """
+    """User Agreement object for FAS"""
 
     container_dn = DN(("cn", "fasagreements"))
     object_name = _("Agreement")
@@ -119,9 +127,15 @@ class fasagreement(LDAPObject):
             primary_key=True,
         ),
         Str(
-            "description?", cli_name="desc", label=_("Agreement Description"),
+            "description?",
+            cli_name="desc",
+            label=_("Agreement Description"),
         ),
-        Bool("ipaenabledflag?", label=_("Enabled"), flags=["no_option"],),
+        Bool(
+            "ipaenabledflag?",
+            label=_("Enabled"),
+            flags=["no_option"],
+        ),
     )
 
 
@@ -220,7 +234,10 @@ class _fasagreement_enabledflag(LDAPQuery):
         except errors.EmptyModlist:
             pass
 
-        return dict(result=True, value=pkey_to_value(cn, options),)
+        return dict(
+            result=True,
+            value=pkey_to_value(cn, options),
+        )
 
 
 @register()
@@ -255,8 +272,7 @@ class fasagreement_remove_user(LDAPRemoveMember):
     member_count_out = (_("%i user removed."), _("%i users removed."))
 
     def pre_callback(self, ldap, dn, found, not_found, *keys, **options):
-        """Remove users from linked groups
-        """
+        """Remove users from linked groups"""
         user_uids = [
             user_dn["uid"] for user_dn in found["memberuser"]["user"]
         ]

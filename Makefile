@@ -1,4 +1,4 @@
-BLACK=black -l78
+BLACK=black
 
 all: lint
 
