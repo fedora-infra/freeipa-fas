@@ -7,7 +7,7 @@ Name:           ipa-%{plugin_name}
 %else
 Name:           freeipa-%{plugin_name}
 %endif
-Version:        0.0.3
+Version:        0.0.4
 Release:        1%{?dist}
 Summary:        Fedora Account System extension for FreeIPA
 
@@ -95,6 +95,9 @@ fi
 %_datadir/ipa/ui/js/plugins/*
 
 %changelog
+* Sun Oct 25 2020 Aurelien Bompard <abompard@fedoraproject.org> - 0.0.4-1
+- Version 0.0.4
+
 * Mon Aug 17 2020 Aurelien Bompard <abompard@fedoraproject.org> - 0.0.3-1
 - Packaging update
 
