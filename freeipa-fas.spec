@@ -63,6 +63,10 @@ for j in $(find ui/ -name '*.js') ; do
     %__cp $j $destdir/
 done
 
+%__mkdir_p %buildroot/%_bindir
+install -p -m 755 create-agreement.py %buildroot/%_bindir/ipa-create-agreement
+
+
 %posttrans
 python3 -c "import sys; from ipaserver.install import installutils; sys.exit(0 if installutils.is_ipa_configured() else 1);" > /dev/null 2>&1
 

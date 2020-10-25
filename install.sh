@@ -26,6 +26,9 @@ cp ui/js/plugins/fasagreement/fasagreement.js \
 cp ipaserver/plugins/*.py ${SITE_PACKAGES}/ipaserver/plugins/
 python3 -m compileall ${SITE_PACKAGES}/ipaserver/plugins/
 
+mkdir -p /usr/local/bin
+install -p -m 755 create-agreement.py /usr/local/bin/ipa-create-agreement
+
 if [ $NEEDS_UPGRADE = 1 ]; then
     ipa-server-upgrade
 else
