@@ -15,7 +15,7 @@ BuildArch:      noarch
 
 License:        GPLv3+
 URL:            https://github.com/fedora-infra/freeipa-fas
-Source0:        https://github.com/fedora-infra/freeipa-fas/archive/%{version}/freeipa-fas-%{version}.tar.gz
+Source0:        https://github.com/fedora-infra/freeipa-fas/archive/v%{version}/freeipa-fas-%{version}.tar.gz
 
 BuildRequires: python3-devel
 BuildRequires: systemd
@@ -43,24 +43,24 @@ rm -rf $RPM_BUILD_ROOT
 
 %__mkdir_p %{buildroot}%{python3_sitelib}/ipaserver/plugins
 for j in $(find ipaserver/plugins -name '*.py') ; do
-    %__cp $j %{buildroot}%{python3_sitelib}/ipaserver/plugins
+    %__cp -p $j %{buildroot}%{python3_sitelib}/ipaserver/plugins
 done
 
 %__mkdir_p %buildroot/%_datadir/ipa/schema.d
 for j in $(find schema.d/ -name '*.ldif') ; do
-    %__cp $j %buildroot/%_datadir/ipa/schema.d/
+    %__cp -p $j %buildroot/%_datadir/ipa/schema.d/
 done
 
 %__mkdir_p %buildroot/%_datadir/ipa/updates
 for j in $(find updates/ -name '*.update') ; do
-    %__cp $j %buildroot/%_datadir/ipa/updates/
+    %__cp -p $j %buildroot/%_datadir/ipa/updates/
 done
 
 %__mkdir_p %buildroot/%_datadir/ipa/ui/js/plugins
 for j in $(find ui/ -name '*.js') ; do
     destdir=%buildroot/%_datadir/ipa/ui/js/plugins/$(basename ${j%.js})
     %__mkdir_p $destdir
-    %__cp $j $destdir/
+    %__cp -p $j $destdir/
 done
 
 %__mkdir_p %buildroot/%_bindir
@@ -93,6 +93,7 @@ fi
 %_datadir/ipa/schema.d/*.ldif
 %_datadir/ipa/updates/*.update
 %_datadir/ipa/ui/js/plugins/*
+%_bindir/ipa-create-agreement
 
 %changelog
 * Sun Oct 25 2020 Aurelien Bompard <abompard@fedoraproject.org> - 0.0.4-1
