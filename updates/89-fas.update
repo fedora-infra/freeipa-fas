@@ -15,18 +15,6 @@ add:ipaUserObjectClasses: fasuser
 only:ipaUserSearchFields: uid,givenname,sn,mail,fasIRCNick
 
 
-# ACI to expose FAS user attributes
-dn: cn=users,cn=accounts,$SUFFIX
-# read access is now handled by managed permission
-remove:aci: (targetattr = "nsAccountLock || fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasCreationTime || fasStatusNote")(targetfilter = "(objectclass=fasuser)")(version 3.0;acl "Read FAS user attributes";allow (compare,read,search) userdn = "ldap:///all";)
-remove:aci: (targetattr = "nsAccountLock || fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasCreationTime || fasStatusNote || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername")(targetfilter = "(objectclass=fasuser)")(version 3.0;acl "Read FAS user attributes";allow (compare,read,search) userdn = "ldap:///all";)
-remove:aci: (targetattr = "nsAccountLock || fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasCreationTime || fasStatusNote || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteURL")(targetfilter = "(objectclass=fasuser)")(version 3.0;acl "Read FAS user attributes";allow (compare,read,search) userdn = "ldap:///all";)
-
-# write access is now a self-service permission
-remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId")(version 3.0;acl "Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
-remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername")(version 3.0;acl "Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
-remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteURL")(version 3.0;acl "Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
-
 # self-service permissions to allow users to modify their own mail address
 # and their own FAS attributes
 dn: $SUFFIX
@@ -75,23 +63,6 @@ default:nsslapd-plugin-depends-on-type: database
 default:nsslapd-pluginId: NSUniqueAttr
 default:nsslapd-pluginVersion: 1.1.0
 default:nsslapd-pluginVendor: Fedora Project
-
-# TODO: Remove this block before stable release
-# see https://github.com/fedora-infra/freeipa-fas/issues/93
-dn: cn=mail uniqueness,cn=plugins,cn=config
-add:uniqueness-exclude-subtrees: cn=staged users,cn=accounts,cn=provisioning,$SUFFIX
-
-dn: cn=uid uniqueness,cn=plugins,cn=config
-add:uniqueness-exclude-subtrees: cn=staged users,cn=accounts,cn=provisioning,$SUFFIX
-
-dn: cn=krbPrincipalName uniqueness,cn=plugins,cn=config
-add:uniqueness-exclude-subtrees: cn=staged users,cn=accounts,cn=provisioning,$SUFFIX
-
-dn: cn=krbCanonicalName uniqueness,cn=plugins,cn=config
-add:uniqueness-exclude-subtrees: cn=staged users,cn=accounts,cn=provisioning,$SUFFIX
-
-dn: cn=ipaUniqueID uniqueness,cn=plugins,cn=config
-add:uniqueness-exclude-subtrees: cn=staged users,cn=accounts,cn=provisioning,$SUFFIX
 
 # Default service delegation target to allow fasjson HTTP principal to
 # impersonate users when talking to LDAP.
