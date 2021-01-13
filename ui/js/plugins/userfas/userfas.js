@@ -68,6 +68,9 @@ define([
                 }, {
                     name: 'fasstatusnote',
                     flags: ['w_if_no_aci']
+                }, {
+                    name: 'faspronoun',
+                    flags: ['w_if_no_aci']
                 }]
             };
             var fasagreement = {

@@ -32,6 +32,7 @@ fas_user_attributes = [
     "fasgitlabusername",
     "faswebsiteurl",
     "fasisprivate",
+    "faspronoun",
 ]
 baseuser.default_attributes.extend(fas_user_attributes)
 
@@ -105,6 +106,12 @@ takes_params = (
         cli_name="fasisprivate",
         label=_("Hide personal data"),
         doc=_("Hide personal data from other users"),
+    ),
+    Str(
+        "faspronoun?",
+        cli_name="faspronoun",
+        label=_("Preferred pronouns"),
+        maxlength=64,
     ),
 )
 
