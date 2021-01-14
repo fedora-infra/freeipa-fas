@@ -294,12 +294,12 @@ class fasagreement_remove_user(LDAPRemoveMember):
         group_obj = self.api.Object.group
         group_container_dn = DN(group_obj.container_dn, self.api.env.basedn)
         try:
-            entry = ldap.get_entry(dn, ["member"])
+            entry = ldap.get_entry(dn, ["memberuser"])
         except errors.NotFound:
             raise self.obj.handle_not_found(*keys)
         group_names = [
             group_obj.get_primary_key_from_dn(m)
-            for m in entry["member"]
+            for m in entry["memberuser"]
             if m.endswith(group_container_dn)
         ]
         # remove users group groups
