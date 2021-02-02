@@ -80,6 +80,7 @@ groups.
 
 * Index on ``fasIRCNick`` for presence and equality
 * Index on ``fasGPGKeyId`` for presence and equality
+* Index on ``nsAccountLock`` for equality
 * Uniqueness of ``mail`` attributes
 
 ## Command line extension
