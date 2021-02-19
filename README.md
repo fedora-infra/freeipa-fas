@@ -310,6 +310,15 @@ $ ipa servicedelegationrule-add-member \
       --principals=HTTP/$(hostname) fasjson-http-delegation
 ```
 
+
+## Server limits
+
+With FASJSON we want to be able to list all users, using a SimplePage query. At
+the moment we have about 120k users and we're hitting the default
+``lookThroughLimit``. We are thus increasing the ``pagedLookThroughLimit`` to
+500k.
+
+
 ## License
 
 See file 'COPYING' for use and warranty information

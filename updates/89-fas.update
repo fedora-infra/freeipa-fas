@@ -105,5 +105,10 @@ dn: cn=fasagreements,$SUFFIX
 add:aci: (targetattr = "memberUser")(targetfilter = "(objectclass=fasagreement)")(version 3.0; acl "Forbid users to retract an agreement"; deny (selfwrite) userattr = "memberUser#USERDN";)
 add:aci: (targetattr = "memberUser")(targetfilter = "(&(objectclass=fasagreement)(ipaenabledflag=TRUE))")(version 3.0; acl "Allow users to consent to an agreement"; allow (selfwrite) userdn = "ldap:///all";)
 
+# Set server limits that are more fit for our project size:
+# - increase the pagedLookThroughLimit so we can get all users in FASJSON.
+dn: cn=config,cn=ldbm database,cn=plugins,cn=config
+replace: nsslapd-pagedlookthroughlimit:0::500000
+
 # Update Permissions (keep this at the bottom of the file)
 plugin: update_managed_permissions
