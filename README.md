@@ -319,6 +319,12 @@ the moment we have about 120k users and we're hitting the default
 500k.
 
 
+## OTP Token
+
+The *IPA OTP Last Token* plugin is disabled to permit users to remove
+their last OTP token.
+
+
 ## License
 
 See file 'COPYING' for use and warranty information

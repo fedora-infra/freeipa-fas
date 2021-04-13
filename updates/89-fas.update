@@ -14,7 +14,6 @@ only:ipaUserAuthType: otp
 add:ipaUserObjectClasses: fasuser
 only:ipaUserSearchFields: uid,givenname,sn,mail,fasIRCNick
 
-
 # self-service permissions to allow users to modify their own mail address
 # and their own FAS attributes
 dn: $SUFFIX
@@ -109,6 +108,10 @@ add:aci: (targetattr = "memberUser")(targetfilter = "(&(objectclass=fasagreement
 # - increase the pagedLookThroughLimit so we can get all users in FASJSON.
 dn: cn=config,cn=ldbm database,cn=plugins,cn=config
 replace: nsslapd-pagedlookthroughlimit:0::500000
+
+# Allow users to delete their last OTP token
+dn: cn=IPA OTP Last Token,cn=plugins,cn=config
+only:nsslapd-pluginenabled: off
 
 # Update Permissions (keep this at the bottom of the file)
 plugin: update_managed_permissions
