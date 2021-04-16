@@ -61,7 +61,8 @@ takes_params = (
         "fasgpgkeyid*",
         cli_name="fasgpgkeyid",
         label=_("GPG Key ids"),
-        maxlength=16,
+        minlength=16,
+        maxlength=40,
     ),
     Str(
         "fasstatusnote?",
