@@ -7,7 +7,7 @@ Name:           ipa-%{plugin_name}
 %else
 Name:           freeipa-%{plugin_name}
 %endif
-Version:        0.0.6
+Version:        0.0.7
 Release:        1%{?dist}
 Summary:        Fedora Account System extension for FreeIPA
 
@@ -96,6 +96,9 @@ fi
 %_bindir/ipa-create-agreement
 
 %changelog
+* Tue Apr 27 2021 Aurelien Bompard <abompard@fedoraproject.org> - 0.0.7-1
+- Version 0.0.7
+
 * Mon Mar 22 2021 Aurelien Bompard <abompard@fedoraproject.org> - 0.0.6-1
 - Version 0.0.6
 
