@@ -109,7 +109,7 @@ takes_params = (
         doc=_("Hide personal data from other users"),
     ),
     Str(
-        "faspronoun?",
+        "faspronoun*",
         cli_name="faspronoun",
         label=_("Preferred pronouns"),
         maxlength=64,
