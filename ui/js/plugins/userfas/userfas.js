@@ -29,9 +29,6 @@ define([
                     name: 'fastimezone',
                     flags: ['w_if_no_aci']
                 }, {
-                    name: 'fastimezone',
-                    flags: ['w_if_no_aci']
-                }, {
                     name: 'faslocale',
                     flags: ['w_if_no_aci']
                 }, {
