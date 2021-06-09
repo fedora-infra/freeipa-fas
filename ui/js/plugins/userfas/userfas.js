@@ -70,6 +70,7 @@ define([
                     flags: ['w_if_no_aci']
                 }, {
                     name: 'faspronoun',
+                    $type: 'multivalued',
                     flags: ['w_if_no_aci']
                 }]
             };
