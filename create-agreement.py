@@ -26,7 +26,15 @@ def main():
     run_cmd(cmd)
     # Create the corresponding group
     group_name = f"signed_{agreement_name}"
-    run_cmd(["ipa", "group-add", group_name, "--desc", f"Signers of the {agreement_name}""])
+    run_cmd(
+        [
+            "ipa",
+            "group-add",
+            group_name,
+            "--desc",
+            f"Signers of the {agreement_name}",
+        ]
+    )
     # Add the automember rule
     run_cmd(["ipa", "automember-add", "--type", "group", group_name])
     run_cmd(
