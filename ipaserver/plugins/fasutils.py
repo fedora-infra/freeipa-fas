@@ -42,7 +42,8 @@ class IRCChannel(Str):
 
     def _convert_scalar(self, value, index=None):
         value = super()._convert_scalar(value, index)
-        value = value.lstrip("#")
-        if not value.startswith("irc:"):
+        if ":/" not in value:
+            # Default to IRC
+            value = value.lstrip("#")
             value = "irc:///{}".format(value)
         return value
