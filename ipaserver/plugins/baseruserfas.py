@@ -33,6 +33,7 @@ fas_user_attributes = [
     "faswebsiteurl",
     "fasisprivate",
     "faspronoun",
+    "fasrssurl",
 ]
 baseuser.default_attributes.extend(fas_user_attributes)
 
@@ -113,6 +114,13 @@ takes_params = (
         cli_name="faspronoun",
         label=_("Preferred pronouns"),
         maxlength=64,
+    ),
+    Str(
+        "fasrssurl*",
+        cli_name="fasrssurl",
+        label=_("RSS URL"),
+        maxlength=255,
+        normalizer=lambda value: value.strip(),
     ),
 )
 

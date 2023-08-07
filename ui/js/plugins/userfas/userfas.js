@@ -69,6 +69,10 @@ define([
                     name: 'faspronoun',
                     $type: 'multivalued',
                     flags: ['w_if_no_aci']
+                }, {
+                    name: 'fasrssurl',
+                    $type: 'multivalued',
+                    flags: ['w_if_no_aci']
                 }]
             };
             var fasagreement = {

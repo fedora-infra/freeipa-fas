@@ -33,6 +33,7 @@ User object is extended by a new *fasUser* object class.
 * *fasWebsiteURL*: string, writable by self
 * *fasIsPrivate*: boolean, writable by self
 * *fasPronoun*: String, writable by self
+* *fasRssUrl*: multi-valued string, writable by self
 
 This also applies to stage users.
 
@@ -80,6 +81,7 @@ groups.
 
 * Index on ``fasIRCNick`` for presence and equality
 * Index on ``fasGPGKeyId`` for presence and equality
+* Index on ``fasRssUrl`` for presence
 * Index on ``nsAccountLock`` for equality
 * Uniqueness of ``mail`` attributes
 
