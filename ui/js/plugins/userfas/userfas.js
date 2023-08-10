@@ -42,6 +42,9 @@ define([
                     name: 'faswebsiteurl',
                     flags: ['w_if_no_aci']
                 }, {
+                    name: 'fasrssurl',
+                    flags: ['w_if_no_aci']
+                }, {
                     name: 'fasrhbzemail',
                     flags: ['w_if_no_aci']
                 }, {

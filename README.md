@@ -31,6 +31,7 @@ User object is extended by a new *fasUser* object class.
 * *fasGitHubUsername*: string, writable by self
 * *fasGitLabUsername*: string, writable by self
 * *fasWebsiteURL*: string, writable by self
+* *fasRssURL*: string, writable by self
 * *fasIsPrivate*: boolean, writable by self
 * *fasPronoun*: String, writable by self
 

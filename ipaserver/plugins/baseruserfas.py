@@ -31,6 +31,7 @@ fas_user_attributes = [
     "fasgithubusername",
     "fasgitlabusername",
     "faswebsiteurl",
+    "fasrssurl",
     "fasisprivate",
     "faspronoun",
 ]
@@ -99,6 +100,13 @@ takes_params = (
         "faswebsiteurl?",
         cli_name="faswebsiteurl",
         label=_("Website / Blog URL"),
+        maxlength=255,
+        normalizer=lambda value: value.strip(),
+    ),
+    URL(
+        "fasrssurl?",
+        cli_name="fasrssurl",
+        label=_("RSS URL"),
         maxlength=255,
         normalizer=lambda value: value.strip(),
     ),
