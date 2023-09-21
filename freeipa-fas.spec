@@ -7,7 +7,7 @@ Name:           ipa-%{plugin_name}
 %else
 Name:           freeipa-%{plugin_name}
 %endif
-Version:        0.0.8
+Version:        1.0.0
 Release:        1%{?dist}
 Summary:        Fedora Account System extension for FreeIPA
 
