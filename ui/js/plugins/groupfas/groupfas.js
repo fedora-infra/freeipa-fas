@@ -40,6 +40,9 @@ define([
                 }, {
                     name: 'fasircchannel',
                     flags: ['w_if_no_aci']
+                }, {
+                    name: 'fasdiscussionurl',
+                    flags: ['w_if_no_aci']
                 }]
             };
             var fasagreement = {

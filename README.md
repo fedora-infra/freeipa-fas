@@ -54,6 +54,7 @@ Groups with the *fasGroup* object class have the following optional attributes:
 * *fasURL*: multi-valued string
 * *fasIRCChannel*: string
 * *fasMailingList*: string
+* *fasDiscussionURL*: string
 
 ## Group / User Agreement check
 
