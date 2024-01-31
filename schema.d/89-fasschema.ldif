@@ -29,7 +29,8 @@ objectClasses: ( 1.3.6.1.4.1.30401.1.2.1 NAME 'fasUser' DESC 'FAS user objectcla
 attributeTypes: ( 1.3.6.1.4.1.30401.1.1.20 NAME 'fasURL' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'Fedora Account System' )
 attributeTypes: ( 1.3.6.1.4.1.30401.1.1.21 NAME 'fasMailingList' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'Fedora Account System' )
 attributeTypes: ( 1.3.6.1.4.1.30401.1.1.22 NAME 'fasIRCChannel' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 X-ORIGIN 'Fedora Account System' )
-objectClasses: ( 1.3.6.1.4.1.30401.1.2.2 NAME 'fasGroup' DESC 'FAS group objectclass' SUP ipaUserGroup AUXILIARY MAY ( fasURL $ fasMailingList $ fasIRCChannel ) X-ORIGIN 'Fedora Account System' )
+attributeTypes: ( 1.3.6.1.4.1.30401.1.1.23 NAME 'fasDiscussionURL' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE X-ORIGIN 'Fedora Account System' )
+objectClasses: ( 1.3.6.1.4.1.30401.1.2.2 NAME 'fasGroup' DESC 'FAS group objectclass' SUP ipaUserGroup AUXILIARY MAY ( fasURL $ fasMailingList $ fasIRCChannel $ fasDiscussionURL) X-ORIGIN 'Fedora Account System' )
 #
 # agreements
 objectClasses: ( 1.3.6.1.4.1.30401.1.2.3 NAME 'fasAgreement' DESC 'FAS agreement objectclass' SUP ipaAssociation MAY ( member ) X-ORIGIN 'Fedora Account System' )

@@ -28,6 +28,7 @@ group_fas_attributes = [
     "fasurl",
     "fasmailinglist",
     "fasircchannel",
+    "fasdiscussionurl",
 ]
 group.default_attributes.extend(group_fas_attributes)
 # always fetch objectclass so group_show can show fasgroup property
@@ -74,6 +75,12 @@ group.takes_params += (
         "fasircchannel*",
         cli_name="fasircchannel",
         label=_("IRC network and channel"),
+        maxlength=255,
+    ),
+    URL(
+        "fasdiscussionurl?",
+        cli_name="fasdiscussionurl",
+        label=_("Discussion / Forum Site URL"),
         maxlength=255,
     ),
 )
