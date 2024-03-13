@@ -1,6 +1,6 @@
 #
 # FreeIPA plugin for Fedora Account System
-# Copyright (C) 2020  Christian Heimes <cheimes@redhat.com>
+# Copyright (C) 2020  FreeIPA FAS Contributors
 # See COPYING for license
 #
 """FreeIPA plugin for Fedora Account System
