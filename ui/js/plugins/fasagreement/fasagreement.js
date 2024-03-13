@@ -1,6 +1,6 @@
 //
 // FreeIPA plugin for Fedora Account System
-// Copyright (C) 2019  FreeIPA FAS Contributors
+// Copyright (C) 2019 FreeIPA FAS Contributors
 // See COPYING for license
 //
 
