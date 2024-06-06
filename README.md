@@ -30,7 +30,7 @@ User object is extended by a new *fasUser* object class.
 * *fasRHBZEmail*: string, writable by self
 * *fasGitHubUsername*: string, writable by self
 * *fasGitLabUsername*: string, writable by self
-* *fasWebsiteURL*: string, writable by self
+* *fasWebsiteURL*: multi-valued string, writable by self
 * *fasIsPrivate*: boolean, writable by self
 * *fasPronoun*: String, writable by self
 * *fasRssUrl*: multi-valued string, writable by self
