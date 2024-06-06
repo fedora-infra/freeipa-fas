@@ -49,6 +49,13 @@ default:nsSystemIndex: false
 default:nsIndexType: eq
 default:nsIndexType: pres
 
+dn: cn=fasWebsiteURL,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
+default:cn: fasWebsiteURL
+default:ObjectClass: top
+default:ObjectClass: nsIndex
+default:nsSystemIndex: false
+add:nsIndexType: pres
+
 dn: cn=fasRssUrl,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
 default:cn: fasRssUrl
 default:ObjectClass: top
