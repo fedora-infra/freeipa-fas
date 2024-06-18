@@ -19,12 +19,12 @@ only:ipaUserSearchFields: uid,givenname,sn,mail,fasIRCNick
 # and their own FAS attributes
 dn: $SUFFIX
 add:aci: (targetattr = "mail")(version 3.0;acl "selfservice:Users can manage their own email address";allow (write) userdn = "ldap:///self";)
-remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteURL")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
-add:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteURL || fasIsPrivate")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
-remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteURL || fasIsPrivate")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
-add:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteURL || fasIsPrivate || fasPronoun")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
-remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteURL || fasIsPrivate || fasPronoun")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
-add:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteURL || fasIsPrivate || fasPronoun || fasRssUrl")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
+remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
+add:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasIsPrivate")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
+remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasIsPrivate")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
+add:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasIsPrivate || fasPronoun")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
+remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasIsPrivate || fasPronoun")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
+add:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteUrl || fasIsPrivate || fasPronoun || fasRssUrl")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
 
 # allow members and member managers to remove themselves from a group
 dn: cn=groups,cn=accounts,$SUFFIX
@@ -49,8 +49,8 @@ default:nsSystemIndex: false
 default:nsIndexType: eq
 default:nsIndexType: pres
 
-dn: cn=fasWebsiteURL,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
-default:cn: fasWebsiteURL
+dn: cn=fasWebsiteUrl,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
+default:cn: fasWebsiteUrl
 default:ObjectClass: top
 default:ObjectClass: nsIndex
 default:nsSystemIndex: false
