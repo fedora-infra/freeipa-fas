@@ -96,7 +96,7 @@ takes_params = (
         maxlength=255,
         normalizer=lambda value: value.strip(),
     ),
-    Str(
+    URL(
         "faswebsiteurl*",
         cli_name="faswebsiteurl",
         label=_("Blog URL"),
@@ -115,7 +115,7 @@ takes_params = (
         label=_("Preferred pronouns"),
         maxlength=64,
     ),
-    Str(
+    URL(
         "fasrssurl*",
         cli_name="fasrssurl",
         label=_("RSS URL"),
