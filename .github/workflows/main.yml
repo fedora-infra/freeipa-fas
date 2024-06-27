@@ -1,0 +1,62 @@
+name: Test & Build
+
+on:
+  push:
+    branches:
+      - stable
+      - develop
+      - dev
+      - main
+    tags:
+  pull_request:
+    branches:
+      - stable
+      - develop
+      - dev
+      - main
+
+jobs:
+
+  checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    container: fedorapython/fedora-python-tox:latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # - name: Install dependencies
+      #   run: |
+      #     dnf install -y libpq-devel krb5-devel
+      #     pip install poetry>=1.2
+
+      - name: Mark the working directory as safe for Git
+        run: git config --global --add safe.directory $PWD
+
+      - name: Run the tests
+        run: tox -e ${{ matrix.toxenv }}
+
+    strategy:
+      matrix:
+        toxenv:
+          - lint
+          - format
+          - bandit
+          - jslint
+
+
+  github-release:
+    name: Create a GitHub Release 📢
+    if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref, 'rc')  # only release on final tag pushes
+    needs:
+      - checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # IMPORTANT: mandatory for making GitHub Releases
+      id-token: write  # IMPORTANT: mandatory for sigstore
+
+    steps:
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
