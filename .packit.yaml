@@ -38,6 +38,14 @@ jobs:
 
   # upon upstream releases, perform COPR builds
   - job: copr_build
+    trigger: pull_request
+    metadata:
+      targets:
+        - fedora-latest-stable
+        - fedora-development
+
+  # upon upstream releases, perform COPR builds
+  - job: copr_build
     trigger: release
     metadata:
       targets:
