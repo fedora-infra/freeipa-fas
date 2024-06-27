@@ -35,9 +35,9 @@ User agreements are a concept where users may need to consent to an
 agreement to be able to join a group. User agreements are how we implement
 the FPCA for certain groups in the Fedora Accounts system.
 
-Agreements can be linked to zero to many groups. Users are able to consent 
-to any enabled user agreement. They can neither consent to disabled user 
-agreement nor retract consent. User agreements can be managed by admins 
+Agreements can be linked to zero to many groups. Users are able to consent
+to any enabled user agreement. They can neither consent to disabled user
+agreement nor retract consent. User agreements can be managed by admins
 and any user with FAS Agreement Administrators privilege.
 
 EXAMPLES:
