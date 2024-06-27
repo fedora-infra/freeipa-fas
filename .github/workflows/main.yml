@@ -24,10 +24,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # - name: Install dependencies
-      #   run: |
-      #     dnf install -y libpq-devel krb5-devel
-      #     pip install poetry>=1.2
+      - name: Install dependencies
+        run: |
+          dnf install -y nodejs-npm
 
       - name: Mark the working directory as safe for Git
         run: git config --global --add safe.directory $PWD
