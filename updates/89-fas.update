@@ -63,6 +63,44 @@ default:ObjectClass: nsIndex
 default:nsSystemIndex: false
 add:nsIndexType: pres
 
+dn: cn=fasCreationTime,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
+default:cn: fasCreationTime
+default:ObjectClass: top
+default:ObjectClass: nsIndex
+default:nsSystemIndex: false
+default:nsIndexType: eq
+
+dn: cn=fasRHBZEmail,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
+default:cn: fasRHBZEmail
+default:ObjectClass: top
+default:ObjectClass: nsIndex
+default:nsSystemIndex: false
+default:nsIndexType: eq
+default:nsIndexType: pres
+
+dn: cn=fasGitHubUsername,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
+default:cn: fasGitHubUsername
+default:ObjectClass: top
+default:ObjectClass: nsIndex
+default:nsSystemIndex: false
+default:nsIndexType: eq
+default:nsIndexType: pres
+
+dn: cn=fasGitLabUsername,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
+default:cn: fasGitLabUsername
+default:ObjectClass: top
+default:ObjectClass: nsIndex
+default:nsSystemIndex: false
+default:nsIndexType: eq
+default:nsIndexType: pres
+
+dn: cn=fasIsPrivate,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
+default:cn: fasIsPrivate
+default:ObjectClass: top
+default:ObjectClass: nsIndex
+default:nsSystemIndex: false
+default:nsIndexType: eq
+
 # Index account lock, used by search for disabled users
 dn: cn=nsAccountLock,cn=index,cn=userRoot,cn=ldbm database,cn=plugins,cn=config
 default:cn: nsAccountLock
