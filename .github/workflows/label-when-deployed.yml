@@ -6,7 +6,7 @@ on:
       - staging
       - stable
       - main
-      - dev
+      - develop
 
 jobs:
   label:
