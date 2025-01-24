@@ -3,6 +3,10 @@ set -e
 
 SITE_PACKAGES=$(python3 -c 'from sys import version_info as v; print(f"/usr/lib/python{v.major}.{v.minor}/site-packages")')
 
+if [ "$1" == "--copy-only" ]; then
+    COPYONLY=true
+fi
+
 if [ -f /usr/share/ipa/schema.d/89-fasschema.ldif -a -f /usr/share/ipa/updates/89-fas.update ]; then
     NEEDS_UPGRADE=0;
 else
@@ -29,13 +33,15 @@ python3 -m compileall ${SITE_PACKAGES}/ipaserver/plugins/
 mkdir -p /usr/local/bin
 install -p -m 755 create-agreement.py /usr/local/bin/ipa-create-agreement
 
-if [ $NEEDS_UPGRADE = 1 ]; then
-    ipa-server-upgrade
-else
-    ipa-ldap-updater \
-        -S /usr/share/ipa/schema.d/89-fasschema.ldif \
-        /usr/share/ipa/updates/89-fas.update
-    systemctl restart httpd.service
+if [ -z "$COPYONLY" ]; then
+    if [ $NEEDS_UPGRADE = 1 ]; then
+        ipa-server-upgrade
+    else
+        ipa-ldap-updater \
+            -S /usr/share/ipa/schema.d/89-fasschema.ldif \
+            /usr/share/ipa/updates/89-fas.update
+        systemctl restart httpd.service
+    fi
 fi
 
 echo "NOTE: $0 is a hack for internal development."
