@@ -90,6 +90,16 @@ define([
               var facet = get_item(spec.facets, '$type', 'details');
               facet.sections.push(section);
 
+              // Add 'c' (Country) field to the existing mailing section
+              var mailing = get_item(facet.sections, 'name', 'mailing');
+              if (mailing) {
+                  mailing.fields.push({
+                      name: 'c',
+                      label: 'Country',
+                      flags: ['w_if_no_aci']
+                  });
+              }
+
               spec.facets.push(fasagreement);
             });
             return true;

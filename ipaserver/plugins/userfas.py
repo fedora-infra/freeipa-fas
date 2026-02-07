@@ -68,7 +68,7 @@ def check_fasuser_attr(entry):
 
 
 def user_add_fas_precb(self, ldap, dn, entry, attrs_list, *keys, **options):
-    if any(option.startswith("fas") for option in options):
+    if any(option.startswith("fas") for option in options) or "c" in options:
         # add fasuser object class
         if not self.obj.has_objectclass(entry["objectclass"], "fasuser"):
             entry["objectclass"].append("fasuser")
@@ -81,7 +81,7 @@ user_add.register_pre_callback(user_add_fas_precb)
 
 
 def user_mod_fas_precb(self, ldap, dn, entry, attrs_list, *keys, **options):
-    if any(option.startswith("fas") for option in options):
+    if any(option.startswith("fas") for option in options) or "c" in options:
         # add fasuser object class
         if "objectclass" not in entry:
             entry_oc = ldap.get_entry(dn, ["objectclass"])

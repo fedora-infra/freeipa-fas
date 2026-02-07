@@ -34,6 +34,7 @@ fas_user_attributes = [
     "fasisprivate",
     "faspronoun",
     "fasrssurl",
+    "c",
 ]
 baseuser.default_attributes.extend(fas_user_attributes)
 
@@ -121,6 +122,16 @@ takes_params = (
         label=_("RSS URL"),
         maxlength=255,
         normalizer=lambda value: value.strip(),
+    ),
+    Str(
+        "c?",
+        cli_name="country",
+        label=_("Country"),
+        doc=_("Country code" " (ISO 3166-1 alpha-2, e.g., US, ES, CH)"),
+        length=2,
+        pattern=r"^[A-Z]{2}$",
+        pattern_errmsg="must be a 2-letter uppercase"
+        " ISO 3166-1 alpha-2 country code",
     ),
 )
 

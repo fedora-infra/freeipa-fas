@@ -34,6 +34,7 @@ User object is extended by a new *fasUser* object class.
 * *fasIsPrivate*: boolean, writable by self
 * *fasPronoun*: String, writable by self
 * *fasRssUrl*: multi-valued string, writable by self
+* *c*: string, writable by self (country code, ISO 3166-1 alpha-2)
 
 This also applies to stage users.
 
@@ -98,6 +99,7 @@ $ ipa user-mod --help
   --fasstatusnote=STR   User status note
   --fascreationtime=DATETIME
                         user creation time
+  --country=STR         country (ISO 3166-1 alpha-2)
   ...
 ```
 
