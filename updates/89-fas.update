@@ -25,6 +25,8 @@ remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId
 add:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasIsPrivate || fasPronoun")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
 remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasIsPrivate || fasPronoun")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
 add:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteUrl || fasIsPrivate || fasPronoun || fasRssUrl")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
+remove:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteUrl || fasIsPrivate || fasPronoun || fasRssUrl")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
+add:aci: (targetattr = "fasTimezone || fasLocale || fasIRCNick || fasGPGKeyId || fasRHBZEmail || fasGitHubUsername || fasGitLabUsername || fasWebsiteUrl || fasIsPrivate || fasPronoun || fasRssUrl || c")(version 3.0;acl "selfservice:Users can modify their own FAS attributes";allow (write) userdn = "ldap:///self";)
 
 # allow members and member managers to remove themselves from a group
 dn: cn=groups,cn=accounts,$SUFFIX
