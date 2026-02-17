@@ -7,6 +7,7 @@
 
 Common user extensions
 """
+
 from ipalib import _
 from ipalib.parameters import DateTime, Str, Bool
 

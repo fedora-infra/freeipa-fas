@@ -7,6 +7,7 @@
 
 Modify group behavior
 """
+
 from ipalib import _
 from ipalib.parameters import Flag
 from ipaserver.plugins.group import group

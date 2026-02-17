@@ -7,6 +7,7 @@
 
 Stage user extension
 """
+
 from ipalib import _
 from ipalib import errors
 
