@@ -7,6 +7,7 @@
 Member users are stored in "memberUser" attribute while related groups are
 stored in "member" attribute. FreeIPA does not have a "memberGroup" attribute.
 """
+
 from ipalib import Bool, Str
 from ipalib import errors
 from ipalib import output
@@ -27,8 +28,7 @@ from ipalib import _, ngettext
 from ipapython.dn import DN
 from ipaserver.plugins.internal import i18n_messages
 
-__doc__ = _(
-    """
+__doc__ = _("""
 FAS User Agreements
 
 User agreements are a concept where users may need to consent to an
@@ -51,8 +51,7 @@ EXAMPLES:
 
  Consent to an agreement as a user:
    ipa fasagreement-add-user theagreement --user=myuser
-"""
-)
+""")
 
 
 fasagreement_output_params = (
