@@ -97,7 +97,11 @@ define([
                       name: 'c',
                       label: 'Country',
                       flags: ['w_if_no_aci']
-                  });
+                  },  {
+                      name: 'o',
+                      label: 'Organisation',
+                      flags: ['w_if_no_aci']
+	        	  });
               }
 
               spec.facets.push(fasagreement);

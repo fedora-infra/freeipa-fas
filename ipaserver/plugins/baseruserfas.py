@@ -36,6 +36,7 @@ fas_user_attributes = [
     "faspronoun",
     "fasrssurl",
     "c",
+    "o",
 ]
 baseuser.default_attributes.extend(fas_user_attributes)
 
@@ -133,6 +134,13 @@ takes_params = (
         pattern=r"^[A-Z]{2}$",
         pattern_errmsg="must be a 2-letter uppercase"
         " ISO 3166-1 alpha-2 country code",
+    ),
+    Str(
+        "o?",
+        cli_name="organisation",
+        label=_("Organisation"),
+        doc=_("User's Organisation"),
+        maxlength=256,
     ),
 )
 
