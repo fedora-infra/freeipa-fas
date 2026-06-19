@@ -101,7 +101,7 @@ define([
                       name: 'o',
                       label: 'Organisation',
                       flags: ['w_if_no_aci']
-		  });
+	        	  });
               }
 
               spec.facets.push(fasagreement);
